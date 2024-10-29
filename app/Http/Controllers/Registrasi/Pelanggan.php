@@ -206,13 +206,14 @@ class Pelanggan extends Controller
 
         $status = (new GlobalController)->whatsapp_status();
 
-
-        if ($status->wa_status == 'Enable') {
-            $pesan_pelanggan['status'] = '0';
-            $pesan_group['status'] = '0';
-        } else {
-            $pesan_pelanggan['status'] = '10';
-            $pesan_group['status'] = '10';
+        if ($status) {
+            if ($status->wa_status == 'Enable') {
+                $pesan_pelanggan['status'] = '0';
+                $pesan_group['status'] = '0';
+            } else {
+                $pesan_pelanggan['status'] = '10';
+                $pesan_group['status'] = '10';
+            }
         }
 
 
