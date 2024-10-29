@@ -76,6 +76,15 @@
               <div class="col-sm-4">
                 <input type="email" class="form-control" id="" value="{{ Session::get('reg_email') }}" name="reg_email">
               </div>
+                <label class="col-sm-2 col-form-label" >Wilayah</label>
+              <div class="col-sm-4">
+                <select class="form-control" name="reg_wilayah" id="">
+                  <option value="">PILIH WILAYAH</option>
+                  @foreach ($data_wilayah as $w)
+                  <option value="{{$w->wil_id}}">{{$w->wil_desa}}</option>
+                  @endforeach
+                 </select> 
+              </div>
             </div>
               <div class="form-group row">
                 <label class=" col-sm-2 col-form-label">Sales</label>
@@ -104,6 +113,36 @@
                     <textarea  name="reg_alamat_tagih" class="form-control" rows="3">{{ Session::get('reg_alamat_tagih') }}</textarea>
                   </div>
               </div>
+
+              <h3 class="mt-3">BILLING</h3><hr>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label" >Tanggal Pemasangan*</label>
+                <div class="col-sm-4">
+                <input type="text" class="form-control datepicker"  name="reg_tgl_pasang" value="{{Session::get('reg_tgl_pasang')}}">
+                </div>
+                <label for="paket" class="col-sm-2 col-form-label">Paket Internet *</label>
+                <div class="col-sm-4">
+                  <select class="form-control" id="paket" name="reg_paket" >
+                    <option value="">Pilih</option>
+                    @foreach($data_paket as $p)
+                    <option value="{{$p->id}}">{{$p->paket_nama}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Harga prorata</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="harga" name="reg_harga" value="{{Session::get('reg_harga')}}" readonly >
+                </div>
+                <label class="col-sm-2 col-form-label">Biaya Kabel</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="addons" name="addons" value="0" readonly>
+                </div>
+              </div>
+
+
+@role('admin|Noc')
               <h3 class="mt-3 text-bolt">INTERNET & HADHWARE</h3><hr>
            
               <div class="form-group row">
@@ -145,33 +184,8 @@
                 </div>
               </div>
 
-
-              <h3 class="mt-3">BILLING</h3><hr>
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label" >Tanggal Pemasangan*</label>
-                <div class="col-sm-4">
-                <input type="text" class="form-control datepicker"  name="reg_tgl_pasang" value="{{Session::get('reg_tgl_pasang')}}">
-                </div>
-                <label for="paket" class="col-sm-2 col-form-label">Paket Internet *</label>
-                <div class="col-sm-4">
-                  <select class="form-control" id="paket" name="reg_paket" >
-                    <option value="">Pilih</option>
-                    @foreach($data_paket as $p)
-                    <option value="{{$p->id}}">{{$p->paket_nama}}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                  <label class="col-sm-2 col-form-label">Harga prorata</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="harga" name="reg_harga" value="{{Session::get('reg_harga')}}" readonly >
-                </div>
-                <label class="col-sm-2 col-form-label">Biaya Kabel</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="addons" name="addons" value="0" readonly>
-                </div>
-              </div>
+@endrole
+              
             
             <h3 class="mt-3 text-bolt">CATATAN</h3><hr>
             <div class="form-group row">

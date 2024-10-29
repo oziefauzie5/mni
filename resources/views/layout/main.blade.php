@@ -186,6 +186,12 @@
 							</div>
 						</li>
 						@role('admin|Noc')
+						<li class="nav-item {{\Route::is('admin.wil.*') ? 'active' : ''}}">
+							<a href="{{route('admin.wil.index')}}">
+								<i class="fas fa-list-alt"></i>
+								<p>Wilayah</p>
+							</a>
+						</li>
 						<li class="nav-item {{\Route::is('admin.wa.*') ? 'active' : ''}}">
 							<a href="{{route('admin.wa.index')}}">
 								<i class="fas fa-list-alt"></i>

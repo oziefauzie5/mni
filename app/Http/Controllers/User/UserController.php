@@ -19,7 +19,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:admin|noc|sales']);
+        $this->middleware(['role:admin|NOC|SALES|TEKNISI']);
     }
 
     public function index()

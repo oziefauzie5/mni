@@ -33,5 +33,6 @@ class Pelanggan extends Model
         'reg_kabel',
         'reg_kelengkapan',
         'reg_catatan',
+        'reg_wilayah',
     ];
 }

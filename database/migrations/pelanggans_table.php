@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('reg_kabel')->nullable();
             $table->string('reg_kelengkapan')->nullable();
             $table->string('reg_catatan')->nullable();
+            $table->string('reg_wilayah')->nullable();
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Registrasi;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Global\GlobalController;
 use App\Models\Applikasi\SettingAplikasi;
+use App\Models\Area\Wilayah;
 use App\Models\Paket\Paket;
 use App\Models\Pesan\Pesan;
 use App\Models\Registrasi\Pelanggan as RegistrasiPelanggan;
@@ -28,6 +29,7 @@ class Pelanggan extends Controller
                 $query->orWhere('reg_hp1', 'like', '%' . $data['q'] . '%');
                 $query->orWhere('reg_hp2', 'like', '%' . $data['q'] . '%');
                 $query->orWhere('reg_alamat_tagih', 'like', '%' . $data['q'] . '%');
+                $query->orWhere('reg_wilayah', 'like', '%' . $data['q'] . '%');
             });
 
         if ($data['data'] == "Active")
@@ -45,12 +47,14 @@ class Pelanggan extends Controller
         $data['count_NonActive'] = $query2->where('reg_status', 'Non Active')->count();
         $data['count_reg'] = RegistrasiPelanggan::count();
 
+
         $data['data_user'] = User::all();
         $data['data_paket'] = Paket::all();
         return view('Registrasi/list', $data);
     }
     public function registrasi()
     {
+        $data['data_wilayah'] = Wilayah::all();
         $data['idpel'] = (new GlobalController)->idpel();
         $data['data_paket'] = Paket::all();
         $data['data_user'] = User::all();
@@ -74,12 +78,6 @@ class Pelanggan extends Controller
     }
     public function print(Request $request, $id)
     {
-        // RegistrasiPelanggan::where('reg_idpel', $id)->update(['reg_status' => $request->reg_status]);
-        // $notifikasi = array(
-        //     'pesan' => 'Update Status Berhasil',
-        //     'alert' => 'success',
-        // );
-        // return redirect()->route('admin.pel.index')->with($notifikasi);
 
         $data['profile_perusahaan'] = SettingAplikasi::first();
         $user = (new GlobalController)->user_admin();
@@ -89,7 +87,7 @@ class Pelanggan extends Controller
             ->join('users', 'users.id', '=', 'pelanggans.reg_sales')
             ->where('reg_idpel', $id)
             ->first();
-        return view('Registrasi/print_berita_acara', $data);
+        // return view('Registrasi/print_berita_acara', $data);
         // dd($data);
 
         $pdf = App::make('dompdf.wrapper');
@@ -125,6 +123,7 @@ class Pelanggan extends Controller
         Session::flash('reg_harga', $request->reg_harga);
         Session::flash('addons', $request->addons);
         Session::flash('reg_catatan', $request->reg_catatan);
+        Session::flash('reg_wilayah', $request->reg_wilayah);
 
 
 
@@ -148,6 +147,7 @@ class Pelanggan extends Controller
             'reg_paket' => 'required',
             'reg_harga' => 'required',
             'addons' => 'required',
+            'reg_wilayah' => 'required',
 
 
         ], [
@@ -170,6 +170,7 @@ class Pelanggan extends Controller
             'reg_paket.required' => 'Paket Internet tidak boleh kosong',
             'reg_harga.required' => 'Harga tidak boleh kosong',
             'addons.required' => 'Biaya Kabel tidak boleh kosong',
+            'reg_wilayah.required' => 'Wilayah tidak boleh kosong',
         ]);
 
 
@@ -195,6 +196,7 @@ class Pelanggan extends Controller
         $data['reg_harga'] = $request->reg_harga;
         $data['reg_addons'] = $request->addons;
         $data['reg_catatan'] = $request->reg_catatan;
+        $data['reg_wilayah'] = $request->reg_wilayah;
         $data['reg_status'] = 'Registrasi';
 
         // Pelanggan::create($data);
