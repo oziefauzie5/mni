@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('reg_alamat_pasang')->nullable();
             $table->string('reg_alamat_tagih')->nullable();
             $table->string('reg_sales')->nullable();
+            $table->string('reg_subseles')->nullable();
             $table->string('reg_paket')->nullable();
             $table->string('reg_harga')->nullable();
             $table->string('reg_username')->nullable();
