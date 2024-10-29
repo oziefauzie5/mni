@@ -52,20 +52,7 @@ class LoginController extends Controller
                 ->where('users.id', $idi)
                 ->first();
 
-            if ($datas->role_id != 11 & $datas->role_id != 10 & $datas->role_id != 12 & $datas->role_id != 13) {
-                return redirect()->route('admin.home');
-            } elseif ($datas->role_id == 11) {
-                return redirect()->route('admin.teknisi.index');
-            } elseif ($datas->role_id == 10) {
-                return redirect()->route('admin.biller.index');
-            } elseif ($datas->role_id == 12) {
-                return redirect()->route('admin.sales.index');
-            } elseif ($datas->role_id == 13) {
-                return redirect()->route('admin.biller.index');
-            } else {
-            }
-        } else {
-            return redirect()->route('adminapp')->with('failed', 'Username atau password salah');
+            return redirect()->route('admin.home');
         }
     }
 
@@ -77,6 +64,6 @@ class LoginController extends Controller
         session()->forget('app_logo');
         session()->forget('app_favicon');
         Auth::logout();
-        return redirect()->route('adminapp')->with('success', 'Kamu berhasil logout');
+        return redirect()->route('/')->with('success', 'Kamu berhasil logout');
     }
 }

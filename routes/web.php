@@ -41,7 +41,7 @@ use App\Models\Transaksi\Invoice;
 use App\Models\Transaksi\Transaksi;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/adminapp', [LoginController::class, 'index'])->name('adminapp');
+Route::get('/', [LoginController::class, 'index'])->name('/');
 Route::post('/login-proses', [LoginController::class, 'login_proses'])->name('login-proses');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 

@@ -16,8 +16,6 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
-        'guard' => 'pelanggan',
-        'passwords' => 'input_data',
     ],
 
     /*
@@ -42,10 +40,6 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'pelanggan' => [
-            'driver' => 'session',
-            'provider' => 'input_data',
-        ],
     ],
 
     /*
@@ -69,10 +63,6 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],
-        'input_data' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\PSB\InputData::class,
         ],
 
         // 'users' => [
@@ -103,12 +93,6 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_reset_tokens',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-        'input_data' => [
-            'provider' => 'input_data',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
