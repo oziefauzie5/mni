@@ -20,8 +20,7 @@
 </style>
 
 <div class="content">
-  <div class="page-inner">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-3">
       <div class="card">
         <div class="card-body">
           @if ($errors->any())
@@ -37,7 +36,7 @@
            <form class="form-horizontal"action="{{route('admin.pel.store')}}" method="POST">
              @csrf
 
-             <h3 class="mt-3 text-bolt">PELANGGAN</h3><hr>
+             <h3 class="mt-3 text-bolt">FORM REGISTRASI LAYANAN INTERNET</h3><hr>
              
               <div class="form-group row">
                   <label class="col-sm-2 col-form-label" >ID Pelanggan</label>
@@ -191,6 +190,5 @@
       </div>
     </div>
   </div>
-</div>
 
 @endsection

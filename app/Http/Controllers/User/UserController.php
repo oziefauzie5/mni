@@ -8,20 +8,18 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Model_Has_Role;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
 use App\Models\RoleHasPermission;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
 use App\Models\Permission;
-use App\Models\Pesan;
 use Carbon\Carbon;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:admin|noc']);
+        $this->middleware(['role:admin|noc|sales']);
     }
 
     public function index()
@@ -84,6 +82,7 @@ class UserController extends Controller
         $data['alamat_lengkap'] = ucwords($request->alamat_lengkap);
         $data['name'] = ucwords($request->name);
         $data['password'] = Hash::make($request->password);
+
 
         $datarole['role_id'] = $level_id;
         $datarole['model_type'] = 'App\Models\User';

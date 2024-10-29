@@ -71,17 +71,12 @@
 
     <table id="kop">
         <tr>
-            <th width="60%"  style=" text-align: left;"><img src="{{ asset('atlantis/assets/img/'.$profile_perusahaan->app_logo)}}" alt=""></th>
+            <th width="60%"  style=" text-align: left;"><img src="{{ asset('storage/img/'.$profile_perusahaan->app_logo)}}" style="width: 40%;" alt=""></th>
             <td width="40%"><strong>{{$profile_perusahaan->app_nama}}</strong> <br><span>{{$profile_perusahaan->app_brand}}</span><br><span>{{$profile_perusahaan->app_alamat}}</span></td>
         </tr>
     </table>
     <br>
  <hr>
- {{-- <table>
-    <tr>
-        <th style="text-align: center; font-size: 14pt;">FORMULIR PENDAFTARAN INTERNET</th>
-    </tr>
- </table> --}}
 <center> <h3>FORMULIR PENDAFTARAN INTERNET</h3></center>
  <table>
     <tr>
@@ -89,13 +84,10 @@
     </tr>
  </table>
     <table id="customers">
-        {{-- <tr>
-            <th colspan="3" style="text-align: center; font-size: 12pt;">FORMULIR PENDAFTARAN INTERNET</th>
-        </tr> --}}
             <tr>
-                <td width="15%">Id Pelanggan</td>
+                <td width="25%">Id Pelanggan</td>
                 <td>:</td>
-                <td width="85%">{{$berita_acara->reg_idpel}}</td>
+                <td width="75%">{{$berita_acara->reg_idpel}}</td>
             </tr>
             <tr>
                 <td>Nama</td>

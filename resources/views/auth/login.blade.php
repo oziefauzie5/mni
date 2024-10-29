@@ -19,8 +19,8 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      {{-- <a href="{{ route('adminapp')}}" class="h1"><b>OVALL FIBER</b></a> --}}
-      <img src="{{ asset('atlantis/assets/img/ovall_logo.png')}}" alt="OVALL FIBER" class="brand-image " style="opacity: .8">
+      {{-- <a href="{{ route('/')}}" class="h1"><b>MNI</b></a> --}}
+      <img src="{{ asset('atlantis/assets/img/Logo-MNI-Mini.png')}}" alt="MNI" class="brand-image " style="opacity: .8">
     </div>
     <div class="card-body">
       <img src="https://www.google.com/search?q=ologo&sca_esv=595776748&rlz=1C1CHBF_enID1019ID1019&tbm=isch&sxsrf=AM9HkKmK7K55ccDTQHqwDOxWo7zpc8tsDg:1704404147583&source=lnms&sa=X&ved=2ahUKEwiLwJSe2MSDAxXI4TgGHVb7AdAQ_AUoAXoECAMQAw&biw=1366&bih=599&dpr=1#imgrc=XC41OE24tqKTDM" alt="">

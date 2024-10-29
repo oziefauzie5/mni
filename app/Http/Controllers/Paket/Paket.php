@@ -15,7 +15,7 @@ class Paket extends Controller
     {
         $data['tittle'] = 'PAKET INTERNET';
         $data['data_paket'] = PaketPaket::all();
-        return view('paket/index', $data);
+        return view('Paket/index', $data);
     }
 
 
@@ -44,7 +44,6 @@ class Paket extends Controller
     {
 
 
-        $sbiaya = SettingBiaya::first();
         $data['paket_nama'] = $request->paket_nama;
         $data['paket_harga'] = $request->paket_harga;
         $data['paket_status'] = 'Enable';

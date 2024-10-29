@@ -4,7 +4,7 @@
 <div class="content">
   <div class="page-inner">
     <div class="row">
-      <a href="" class="col-6 col-sm-4 col-lg-4">
+      <a href="{{route('admin.pel.registrasi')}}" class="col-6 col-sm-4 col-lg-4">
         <div class="card">
           <div class="card-body p-3 text-center">
             <div class="h1 m-0">{{$count_reg}}</div>
@@ -12,14 +12,14 @@
           </div>
         </div>
       </a>
-      <a href="" class="col-6 col-sm-4 col-lg-4">
+      <div class="col-6 col-sm-4 col-lg-4">
         <div class="card">
           <div class="card-body p-3 text-center">
             <div class="h1 m-0">{{$count_Active}}</div>
             <div class="text-muted mb-3">Active</div>
           </div>
         </div>
-      </a>
+      </div>
       <div class="col-6 col-sm-4 col-lg-4">
         <div class="card">
           <div class="card-body p-3 text-center">
@@ -83,11 +83,11 @@
                 <tr>
                   <th>Aksi</th>
                   <th>ID</th>
-                  <th>Tanggal</th>
-                  <th>Nama</th>
-                  <th>Whatsapp</th>
-                  <th>Alamat Pasang</th>
-                  <th>Status</th>
+                  <th>NAMA</th>
+                  <th>NO HP</th>
+                  <th>ALAMAT TAGIH</th>
+                  <th>SERIAL NUMBER</th>
+                  <th>STATUS</th>
                 </tr>
               </thead>
               <tbody>

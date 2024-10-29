@@ -93,10 +93,10 @@ class Pelanggan extends Controller
         // dd($data);
 
         $pdf = App::make('dompdf.wrapper');
-        $html = view('PSB/print_berita_acara', $data)->render();
+        $html = view('Registrasi/print_berita_acara', $data)->render();
         $pdf->loadHTML($html);
-        $pdf->setPaper('A4', 'potraid');
-        return $pdf->download('Berita_Acara_' . $sales . '.pdf');
+        $pdf->setPaper('legal', 'potraid');
+        return $pdf->download('form-' . $data['berita_acara']->reg_nama . '.pdf');
     }
     public function store(Request $request)
     {
