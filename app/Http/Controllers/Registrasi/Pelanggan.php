@@ -62,14 +62,42 @@ class Pelanggan extends Controller
     }
     public function verif($id)
     {
-        $data['data_wilayah'] = Wilayah::all();
-        $data['idpel'] = (new GlobalController)->idpel();
-        $data['data_paket'] = Paket::all();
+        // $data['data_wilayah'] = Wilayah::all();
+        // $data['idpel'] = (new GlobalController)->idpel();
+        // $data['data_paket'] = Paket::all();
 
-        $data['data_reg'] = RegistrasiPelanggan::where('reg_idpel', $id)->first();
+        $data['data_reg'] = RegistrasiPelanggan::select('pelanggans.*', 'pakets.id', 'pakets.paket_nama', 'pakets.paket_harga')
+            ->join('pakets', 'pakets.id', 'pelanggans.reg_paket',)
+            ->where('reg_idpel', $id)->first();
+            
         // dd($data['data_reg']->reg_idpel);
         $data['data_user'] = User::all();
         return view('Registrasi/verif', $data);
+    }
+    public function proses_verif(Request $request)
+    {
+
+        Session::flash('reg_idpel', $request->reg_idpel);
+        Session::flash('reg_paket', $request->reg_paket);
+        Session::flash('reg_harga', $request->reg_harga);
+        $request->validate([
+            'reg_paket' => 'required',
+            'reg_harga' => 'required',
+        ], [
+            'reg_paket.required' => 'Paket Internet tidak boleh kosong',
+            'reg_harga.required' => 'Harga tidak boleh kosong',
+        ]);
+
+        $data['reg_paket'] = $request->reg_paket;
+        $data['reg_harga'] = $request->reg_harga;
+        $data['reg_status'] = '1';
+
+        RegistrasiPelanggan::where('reg_idpel', $request->reg_idpel)->update($data);
+        $notifikasi = array(
+            'pesan' => 'Berhasil Verifikasi pelanggan',
+            'alert' => 'success',
+        );
+        return redirect()->route('admin.pel.index')->with($notifikasi);
     }
 
     public function getPaket(Request $request, $id)

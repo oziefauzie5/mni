@@ -418,42 +418,6 @@
   });
 });
 
-// MEMBUAT USERNAME
-$("#reg_nama").on("keyup",function(event) {
-	var id = $('#reg_idpel').val();
-	var v = $('#reg_nama').val();
-	value = v.replace(/[.,+'-]/g, '');
-	fix = value.replace(/\s/g, '_');
-                $('#reg_username').val(id+'@'+fix.toUpperCase());
-    // console.log(v);
-});
-
-//HITUNG KABEL
-$(document).ready(function() {
-            $("#reg_kabel").keyup(function() {
-                var kabel  = $("#reg_kabel").val();
-				var biaya_kabel = $("#biaya_kabel").val();
-				var total = parseInt(biaya_kabel) * parseInt(kabel);
-				if (isNaN(total)) {
-					total = '';
-				}
-				let rupiahFormat1 = new Intl.NumberFormat('id-ID', {
-                              style: 'currency',minimumFractionDigits: 0,
-                              currency: 'IDR',
-                            }).format(biaya_kabel);
-				let rupiahFormat2 = new Intl.NumberFormat('id-ID', {
-                              style: 'currency',minimumFractionDigits: 0,
-                              currency: 'IDR',
-                            }).format(total);
-				if(kabel <=100){
-					$("#text").html('Gratis biaya kabel');
-				}else {
-					$("#text").html('Dikenakan biaya kabel '+kabel+' meter x '+ rupiahFormat1 +' = '+rupiahFormat2);
-				}
-				$("#addons").val(total);
-            });
-            });
-
 
 			$('#paket').on('change', function() {
 				var kode_paket = $(this).val();

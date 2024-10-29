@@ -7,6 +7,7 @@ use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Paket\Paket;
 use App\Http\Controllers\Registrasi\Pelanggan;
 use App\Http\Controllers\Sales\Sales;
+use App\Http\Controllers\Teknisi\Teknisi;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Whatsapp\WhatsappApi;
 use App\Http\Controllers\Whatsapp\WhatsappController;
@@ -28,6 +29,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web'], 'as' => 'admin.
 
 
 
+
+    Route::get('/teknisi', [Teknisi::class, 'index'])->name('teknisi.index')->middleware(['role:admin|TEKNISI']);
+    Route::get('/teknisi/{id}/aktivasi', [Teknisi::class, 'aktivasi'])->name('teknisi.aktivasi')->middleware(['role:admin|TEKNISI']);
+    Route::post('/teknisi/proses_aktivasi', [Teknisi::class, 'proses_aktivasi'])->name('teknisi.proses_aktivasi')->middleware(['role:admin|TEKNISI']);
 
     Route::get('/sales', [Sales::class, 'index'])->name('sales.index')->middleware(['role:admin|SALES']);
     Route::get('/sales/input', [Sales::class, 'input'])->name('sales.input')->middleware(['role:admin|SALES']);
@@ -56,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web'], 'as' => 'admin.
 
     Route::get('/registrasi/list', [Pelanggan::class, 'index'])->name('pel.index')->middleware(['role:admin|NOC|SALES']);
     Route::get('/registrasi/{id}/verif', [Pelanggan::class, 'verif'])->name('pel.verif')->middleware(['role:admin|NOC|SALES']);
+    Route::put('/registrasi/proses-verif', [Pelanggan::class, 'proses_verif'])->name('pel.proses_verif')->middleware(['role:admin|NOC|SALES']);
     Route::put('/registrasi/{id}/status', [Pelanggan::class, 'status'])->name('pel.status')->middleware(['role:admin|NOC|SALES']);
     Route::get('/registrasi/{id}/print', [Pelanggan::class, 'print'])->name('pel.print')->middleware(['role:admin|NOC|SALES']);
     Route::get('/registrasi', [Pelanggan::class, 'registrasi'])->name('pel.registrasi')->middleware(['role:admin|NOC|SALES']);
