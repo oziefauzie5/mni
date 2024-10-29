@@ -94,12 +94,12 @@
                 @foreach ($pelanggan as $d)
                 <tr>
                       <td><a href="{{route('admin.pel.print',['id'=>$d->reg_idpel])}}"><button class="btn btn-sm btn-danger">Print</button></a></td>
-                      <td>{{$d->reg_idpel}}</td>
-                      <td>{{$d->reg_nama}}</td>
-                      <td>{{$d->reg_hp1}}</td>
-                      <td>{{$d->reg_alamat_tagih}}</td>
-                      <td>{{$d->reg_sn}}</td>
-                      <td data-toggle="modal" data-target="#exampleModal{{$d->reg_idpel}}">{{$d->reg_status}}</td>
+                      <td class="href" data-id="{{$d->reg_idpel}}">{{$d->reg_idpel}}</td>
+                      <td class="href" data-id="{{$d->reg_idpel}}">{{$d->reg_nama}}</td>
+                      <td class="href" data-id="{{$d->reg_idpel}}">{{$d->reg_hp1}}</td>
+                      <td class="href" data-id="{{$d->reg_idpel}}">{{$d->reg_alamat_tagih}}</td>
+                      <td class="href" data-id="{{$d->reg_idpel}}"> {{$d->reg_sn}}</td>
+                      <td data-toggle="modal" data-target="#exampleModal{{$d->reg_idpel}}">@if($d->reg_status=='0') Registrasi @elseif($d->reg_status =='1')Verifikasi @elseif($d->reg_status =='2')Pemasangan @elseif($d->reg_status =='3')Selesai @endif</td>
                       <!-- Button trigger modal -->
 
 <!-- Modal -->

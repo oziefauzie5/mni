@@ -41,48 +41,45 @@
               <div class="form-group row">
                   <label class="col-sm-2 col-form-label" >ID Pelanggan</label>
                   <div class="col-sm-10">
-                    <input type="number" class="form-control" id="reg_idpel" value="{{ $idpel }}" name="reg_idpel" readonly >
+                    <input type="number" class="form-control" id="reg_idpel" value="{{ $data_reg->reg_idpel }}" name="reg_idpel" readonly >
                     <span>Notes : 2 Digit pertama Tahun registrasi, 2 Digit berikutnya Bulan Registrasi 4 Digit berikutnya No Urut</span>
                   </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nama Pelanggan</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="reg_nama" value="{{ Session::get('reg_nama') }}" name="reg_nama">
+                  <input type="text" class="form-control" id="reg_nama" value="{{ $data_reg->reg_nama }}" name="reg_nama" readonly>
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >No Identitas</label>
               <div class="col-sm-4">
-                <input class="form-control" value="{{ Session::get('reg_identistas') }}" name="reg_identistas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "16" >
+                <input class="form-control" value="{{ $data_reg->reg_identistas }}" name="reg_identistas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "16" >
               </div>
                 <label class=" col-sm-2 col-form-label">Tgl Lahir</label>
               <div class="col-sm-4">
-                <input type="text" name="reg_tgl_lahir"  class="form-control datepicker" value="{{ Session::get('reg_tgl_lahir') }}">
+                <input type="text" name="reg_tgl_lahir"  class="form-control datepicker" value="{{ $data_reg->reg_tgl_lahir }}">
               </div>
             </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >No HP Utama</label>
               <div class="col-sm-4">
-                <input type="number" class="form-control" value="{{ Session::get('reg_hp1') }}" name="reg_hp1" >
+                <input type="number" class="form-control" value="{{ $data_reg->reg_hp1 }}" name="reg_hp1" >
               </div>
                 <label class=" col-sm-2 col-form-label">No HP Alternatif</label>
               <div class="col-sm-4">
-                <input type="number" name="reg_hp2" class="form-control" value="{{ Session::get('reg_hp2') }}">
+                <input type="number" name="reg_hp2" class="form-control" value="{{ $data_reg->reg_hp2 }}">
               </div>
             </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >Email</label>
               <div class="col-sm-4">
-                <input type="email" class="form-control" id="" value="{{ Session::get('reg_email') }}" name="reg_email">
+                <input type="email" class="form-control" id="" value="{{ $data_reg->reg_email }}" name="reg_email">
               </div>
                 <label class="col-sm-2 col-form-label" >Wilayah</label>
               <div class="col-sm-4">
                 <select class="form-control" name="reg_wilayah" id="">
-                  <option value="">PILIH WILAYAH</option>
-                  @foreach ($data_wilayah as $w)
-                  <option value="{{$w->wil_id}}">{{$w->wil_desa}}</option>
-                  @endforeach
+                  <option value="">{{ $data_reg->reg_wilayah }}</option>
                  </select> 
               </div>
             </div>
@@ -91,10 +88,7 @@
                 <label class=" col-sm-2 col-form-label">Sales</label>
               <div class="col-sm-4">
                 <select class="form-control" name="reg_sales" id="">
-                  <option value="">PILIH SALES</option>
-                  @foreach ($data_user as $u)
-                  <option value="{{$u->id}}">{{$u->name}}</option>
-                  @endforeach
+                  <option value="">{{ $data_reg->reg_nama }}</option>
                  </select>              
               </div>
               <label class="col-sm-2 col-form-label" >Sub Seles</label>
@@ -106,13 +100,13 @@
               <div class="form-group row">
                   <label for="alamat_pasang" class="col-sm-2 col-form-label">Alamat Pemasangan</label>
                   <div class="col-sm-10">
-                    <textarea  name="reg_alamat_pasang" class="form-control" rows="3">{{ Session::get('reg_alamat_pasang') }}</textarea>
+                    <textarea  name="reg_alamat_pasang" class="form-control" rows="3">{{ $data_reg->reg_alamat_pasang }}</textarea>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="alamat_pasang" class="col-sm-2 col-form-label">Alamat Penagihan</label>
                   <div class="col-sm-10">
-                    <textarea  name="reg_alamat_tagih" class="form-control" rows="3">{{ Session::get('reg_alamat_tagih') }}</textarea>
+                    <textarea  name="reg_alamat_tagih" class="form-control" rows="3">{{ $data_reg->reg_alamat_tagih }}</textarea>
                   </div>
               </div>
 

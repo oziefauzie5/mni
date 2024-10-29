@@ -60,6 +60,17 @@ class Pelanggan extends Controller
         $data['data_user'] = User::all();
         return view('Registrasi/registrasi', $data);
     }
+    public function verif($id)
+    {
+        $data['data_wilayah'] = Wilayah::all();
+        $data['idpel'] = (new GlobalController)->idpel();
+        $data['data_paket'] = Paket::all();
+
+        $data['data_reg'] = RegistrasiPelanggan::where('reg_idpel', $id)->first();
+        // dd($data['data_reg']->reg_idpel);
+        $data['data_user'] = User::all();
+        return view('Registrasi/verif', $data);
+    }
 
     public function getPaket(Request $request, $id)
     {
@@ -199,7 +210,6 @@ class Pelanggan extends Controller
         $data['reg_wilayah'] = $request->reg_wilayah;
         $data['reg_status'] = 'Registrasi';
 
-        // Pelanggan::create($data);
         RegistrasiPelanggan::create($data);
         // dd($data);
 

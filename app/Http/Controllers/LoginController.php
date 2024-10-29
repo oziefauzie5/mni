@@ -52,7 +52,15 @@ class LoginController extends Controller
                 ->where('users.id', $idi)
                 ->first();
 
-            return redirect()->route('admin.home');
+            if ($datas->role_id != 5 & $datas->role_id != 6) {
+                return redirect()->route('admin.home');
+            } elseif ($datas->role_id == 5) {
+                return redirect()->route('admin.teknisi.index');
+            } elseif ($datas->role_id == 6) {
+                return redirect()->route('admin.sales.index');
+            }
+        } else {
+            return redirect()->route('/')->with('failed', 'Username atau password salah');
         }
     }
 

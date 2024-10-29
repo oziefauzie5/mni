@@ -484,7 +484,14 @@ $(document).ready(function() {
         });
       
 // END AMBIL HARGA PAKET #REGISTRASI
-
+// START EDIT HREF PSB
+$('.href').click(function(){
+							var id =$(this).data("id");
+							var url = '{{ route("admin.pel.verif", ":id") }}';
+							url = url.replace(':id', id);
+							// alert(url);
+							window.location=url;
+						});
 
 
 		

@@ -6,6 +6,7 @@ use App\Http\Controllers\Area\Wilayah;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Paket\Paket;
 use App\Http\Controllers\Registrasi\Pelanggan;
+use App\Http\Controllers\Sales\Sales;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Whatsapp\WhatsappApi;
 use App\Http\Controllers\Whatsapp\WhatsappController;
@@ -26,6 +27,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web'], 'as' => 'admin.
     Route::delete('/user/{id}/delete', [UserController::class, 'delete'])->name('user.delete')->middleware(['role:admin|NOC']);
 
 
+
+
+    Route::get('/sales', [Sales::class, 'index'])->name('sales.index')->middleware(['role:admin|SALES']);
+    Route::get('/sales/input', [Sales::class, 'input'])->name('sales.input')->middleware(['role:admin|SALES']);
+    Route::post('/sales/store', [Sales::class, 'store'])->name('sales.store')->middleware(['role:admin|SALES']);
 
 
     Route::get('/wilayah', [Wilayah::class, 'index'])->name('wil.index')->middleware(['role:admin|NOC']);
@@ -49,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web'], 'as' => 'admin.
     Route::delete('/setting/{id}/delete-paket', [Paket::class, 'delete'])->name('app.paket.delete')->middleware(['role:admin|NOC']);
 
     Route::get('/registrasi/list', [Pelanggan::class, 'index'])->name('pel.index')->middleware(['role:admin|NOC|SALES']);
+    Route::get('/registrasi/{id}/verif', [Pelanggan::class, 'verif'])->name('pel.verif')->middleware(['role:admin|NOC|SALES']);
     Route::put('/registrasi/{id}/status', [Pelanggan::class, 'status'])->name('pel.status')->middleware(['role:admin|NOC|SALES']);
     Route::get('/registrasi/{id}/print', [Pelanggan::class, 'print'])->name('pel.print')->middleware(['role:admin|NOC|SALES']);
     Route::get('/registrasi', [Pelanggan::class, 'registrasi'])->name('pel.registrasi')->middleware(['role:admin|NOC|SALES']);
