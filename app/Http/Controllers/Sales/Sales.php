@@ -151,6 +151,7 @@ class Sales extends Controller
                 $pesan_pelanggan['status'] = '10';
                 $pesan_group['status'] = '10';
             }
+            $pesan_group['target'] = $status->wa_group_regist;
         }
 
         $pesan_pelanggan['ket'] = 'registrasi';
@@ -173,7 +174,7 @@ Pesan ini bersifat informasi dan tidak perlu dibalas
         // dd($pesan_pelanggan);
 
         $pesan_group['ket'] = 'registrasi';
-        $pesan_group['target'] = $status->wa_group_regist;
+
         $pesan_group['nama'] = $request->reg_nama;
         $pesan_group['pesan'] = '               -- REGISTRASI --
 
