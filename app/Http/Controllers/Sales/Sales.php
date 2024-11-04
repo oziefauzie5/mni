@@ -70,9 +70,10 @@ class Sales extends Controller
         $nomorhp2 = (new ConvertNoHp())->convert_nohp($request->reg_hp2);
         $admin_id = $user['user_id'];
         $admin = $user['user_nama'];
+        $tgl_lahir = date('Y-m-d', strtotime($request->reg_tgl_lahir));
         Session::flash('reg_nama', $request->reg_nama);
         Session::flash('reg_identistas', $request->reg_identistas);
-        Session::flash('reg_tgl_lahir', $request->reg_tgl_lahir);
+        Session::flash('reg_tgl_lahir', $tgl_lahir);
         Session::flash('reg_hp1', $nomorhp1);
         Session::flash('reg_hp2', $nomorhp2);
         Session::flash('reg_email', $request->reg_email);
@@ -120,7 +121,7 @@ class Sales extends Controller
         $data['reg_idpel'] = $idpel;
         $data['reg_nama'] = $request->reg_nama;
         $data['reg_identistas'] = $request->reg_identistas;
-        $data['reg_tgl_lahir'] = $request->reg_tgl_lahir;
+        $data['reg_tgl_lahir'] = $tgl_lahir;
         $data['reg_hp1'] = $nomorhp1;
         $data['reg_hp2'] = $nomorhp2;
         $data['reg_email'] = $request->reg_email;

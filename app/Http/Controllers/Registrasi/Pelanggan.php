@@ -70,8 +70,9 @@ class Pelanggan extends Controller
         // dd($data['role']);
         $data['data_paket'] = Paket::where('paket_status', 'Enable')->get();
 
-        $data['data_reg'] = RegistrasiPelanggan::select('pelanggans.*', 'pakets.id', 'pakets.paket_nama', 'pakets.paket_harga')
-            ->join('pakets', 'pakets.id', 'pelanggans.reg_paket',)
+        $data['data_reg'] = RegistrasiPelanggan::select('pelanggans.*', 'wilayahs.id', 'wilayahs.wil_desa', 'pakets.id', 'pakets.paket_nama', 'pakets.paket_harga')
+            ->join('pakets', 'pakets.id', 'pelanggans.reg_paket')
+            ->join('wilayahs', 'wilayahs.id', 'pelanggans.reg_wilayah')
             ->where('reg_idpel', $id)->first();
 
         // dd($data['data_reg']->reg_idpel);

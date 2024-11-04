@@ -84,7 +84,7 @@
                 <label class="col-sm-2 col-form-label" >Wilayah</label>
               <div class="col-sm-4">
                 <select class="form-control" name="reg_wilayah" id="" @if ($role->role_id > 2) readonly @endif>
-                  <option value="">{{ $data_reg->reg_wilayah }}</option>
+                  <option value="">{{ $data_reg->wil_desa }}</option>
                  </select> 
               </div>
             </div>

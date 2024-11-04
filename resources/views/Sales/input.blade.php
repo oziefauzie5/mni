@@ -112,7 +112,7 @@
                       <select class="form-control" name="reg_wilayah" id="">
                         <option value="">PILIH WILAYAH</option>
                         @foreach ($data_wilayah as $w)
-                        <option value="{{$w->wil_id}}">{{$w->wil_desa}}</option>
+                        <option value="{{$w->id}}">{{$w->wil_desa}}</option>
                         @endforeach
                        </select> 
                     </div>
