@@ -115,13 +115,6 @@
                    <li class="list-group-item">No. Layanan   : {{$pel->reg_idpel}}</li>
                    <li class="list-group-item">Nama   : {{$pel->reg_nama}}</li>
                    <li class="list-group-item">Alamat : {{$pel->reg_alamat_pasang}}</li>
-                  <li class="list-group-item">Sales : {{$pel->name}}</li>
-                  <li class="list-group-item">Sub Sales : {{$pel->reg_subseles}}</li>
-                  </ul>
-                  <hr>
-                  <label for="barang" class=" col-form-label">PEMBAYARAN</label>
-                  <ul class="list-group">
-                   <li class="list-group-item">Jumlah Tagihan   : Rp. {{ number_format($pel->reg_harga) }}</li>
                   </ul>
                   <hr>
                   <label for="barang" class=" col-form-label">TEAM TEKNISI</label>
@@ -138,8 +131,7 @@
                                           <option value="{{$user->id.'|'.$user->name.'|'.$user->hp}}">{{$user->name}}</option>
                                           @endforeach
                                         </select>
-                                        <input type="text" class="form-control" name="sub_teknisi" required>
-                                        <input type="hidden" id="job" name="job" value="PSB">
+                                        <input type="text" class="form-control" name="sub_teknisi" required placeholder="Masukan Partner Kerja anda">
                                     </div>
                                     <label for="barang" class=" col-form-label">JENIS PEKERJAAN</label>
                   <div class="form-group">

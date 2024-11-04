@@ -207,7 +207,12 @@
             
          <div class="card-footer">
           @if($data_reg->reg_status == 3) 
+          @if ($role->role_id != 3) 
+          <span>Aktivasi hanya bisa dilakukan oleh NOC</span>
+          <button type="submit" class="btn btn-warning float-right" disabled>Aktivasi</button>
+          @else
           <button type="submit" class="btn btn-warning float-right">Aktivasi</button>
+          @endif
           @elseif($data_reg->reg_status >= 4)
           <button type="submit" class="btn btn-warning float-right">Update</button>
           @else  

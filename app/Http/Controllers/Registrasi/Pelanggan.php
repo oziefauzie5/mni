@@ -102,6 +102,32 @@ class Pelanggan extends Controller
         $data['reg_status'] = '1';
 
         RegistrasiPelanggan::where('reg_idpel', $request->reg_idpel)->update($data);
+
+        $status = (new GlobalController)->whatsapp_status();
+
+        if ($status) {
+            if ($status->wa_status == 'Enable') {
+                $pesan_group['status'] = '0';
+            } else {
+                $pesan_group['status'] = '10';
+            }
+            $pesan_group['target'] = $status->wa_groupid;
+        }
+        // dd($status);
+
+        $pesan_group['ket'] = 'registrasi';
+        $pesan_group['nama'] = $request->reg_nama;
+        $pesan_group['pesan'] = '               -- JOB PSB --
+Hallo Broo 
+Ada PSB masuk ke sistem nih! 😊
+
+Nama : ' . $request->reg_nama . '
+Alamat : ' . $request->reg_alamat_pasang . '
+
+Mohon segera diproses dari aplikasi dan di tindak lanjuti ya.
+Terima kasih.
+';
+        Pesan::create($pesan_group);
         $notifikasi = array(
             'pesan' => 'Berhasil Verifikasi pelanggan',
             'alert' => 'success',
@@ -140,9 +166,33 @@ class Pelanggan extends Controller
         $data['reg_sn'] = $request->reg_sn;
         $data['reg_kabel'] = $request->reg_kabel;
         $data['reg_tgl_pasang'] = $request->reg_tgl_pasang;
+        $data['reg_kelengkapan'] = $request->reg_kelengkapan;
         $data['reg_status'] = '4';
         RegistrasiPelanggan::where('reg_idpel', $id)->update($data);
-        dd($id);
+        $status = (new GlobalController)->whatsapp_status();
+        $pel = (new GlobalController)->data_pelanggan($id);
+
+        if ($status) {
+            if ($status->wa_status == 'Enable') {
+                $pesan_group['status'] = '0';
+            } else {
+                $pesan_group['status'] = '10';
+            }
+        }
+
+        $pesan_group['ket'] = 'aktivasi noc';
+        $pesan_group['target'] = $pel->reg_hp1;
+        $pesan_group['nama'] = $request->reg_nama;
+        $pesan_group['pesan'] = '
+Pelanggan yth
+Terima kasih atas kepercayaan anda menggunakan layanan kami.
+Saat ini layanan internet telah aktif. 
+
+--------------------
+Pesan ini bersifat informasi dan tidak perlu dibalas
+*' . Session::get('app_brand') . '*';
+
+        Pesan::create($pesan_group);
         $notifikasi = array(
             'pesan' => 'Berhasil Aktivasi pelanggan',
             'alert' => 'success',

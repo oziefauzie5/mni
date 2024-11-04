@@ -100,7 +100,7 @@
                             <div class="text-small text-uppercase fw-bold text-danger"> <span class="text-dark">Tanggal Input : </span>{{date('d M Y H:m:s',strtotime($pel->created_at))}}</div>
                         </div>
                         <div class="col-12 pl-0 text-right">
-                            <div class="text-small text-uppercase fw-bold op-8">@if($pel->reg_status=='0') Registrasi @elseif($pel->reg_status =='1')Verifikasi @elseif($pel->reg_status =='2')Pemasangan @elseif($pel->reg_status =='3')Selesai @endif</div>
+                            <div class="text-small text-uppercase fw-bold op-8">@if($pel->reg_status=='0') Registrasi @elseif($pel->reg_status =='1')Menunggu Teknisi @elseif($pel->reg_status =='2')Pemasangan @elseif($pel->reg_status =='3')Selesai @endif</div>
                         </div>
                     </div>
                 </div>

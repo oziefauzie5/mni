@@ -21,7 +21,7 @@ class Teknisi extends Controller
         $user_id = $user['user_id'];
         $role = (new globalController)->data_user($user_id);
         $data['role'] = $role->name;
-        $data['teknisi'] = (new GlobalController)->all_user()->where('model_has_roles.role_id', '>', 5)->get();
+        $data['teknisi'] = (new GlobalController)->all_user()->where('model_has_roles.role_id', 5)->get();
         $m = date('m', strtotime(new Carbon()));
 
         $query = Pelanggan::select('users.id', 'users.name', 'pakets.id', 'pakets.paket_nama', 'pelanggans.*')
@@ -48,7 +48,7 @@ class Teknisi extends Controller
         $data['teknisi_team'] = $team;
         $data['teknisi_job'] = $request->job;
         $data['teknisi_idpel'] = $id;
-        $data['teknisi_start_date'] = date('Y-m-d H:m:s', strtotime($tanggal));
+        $data['teknisi_start_date'] = date('Y-m-d h:i:s', strtotime($tanggal));
         $data['teknisi_status'] = 0;
         TeknisiTeknisi::create($data);
 
@@ -102,7 +102,15 @@ class Teknisi extends Controller
         $admin_id = $user['user_id'];
         $admin = $user['user_nama'];
         $no_inv = (new GlobalController)->no_inv();
-        $data_pelanggan = (new GlobalController)->data_pelanggan($request->reg_idpel);
+        $data_pelanggan = Pelanggan::select('teknisis.teknisi_userid', 'teknisis.teknisi_idpel', 'teknisis.teknisi_job', 'teknisis.teknisi_team', 'teknisis.teknisi_start_date', 'teknisis.teknisi_end_date', 'pakets.id', 'pakets.paket_nama', 'pelanggans.*')
+            ->join('pakets', 'pakets.id', '=', 'pelanggans.reg_paket')
+            ->join('teknisis', 'teknisis.teknisi_idpel', '=', 'pelanggans.reg_idpel')
+            ->where('pelanggans.reg_idpel', '=', $request->reg_idpel)
+            ->where('teknisis.teknisi_userid', $admin_id)
+            ->where('teknisis.teknisi_job', 'PSB')
+            ->first();
+        // dd($data_pelanggan);
+        // dd(date('d-m-Y h:i:s', strtotime($data_pelanggan->teknisi_start_date)));
         $tgl_pasang = date('Y-m-d', strtotime($tanggal));
         $tgl_jatuh_tempo = Carbon::create($tgl_pasang)->toDateString();
         $tgl_tagih = Carbon::create($tgl_pasang)->toDateString();
@@ -161,6 +169,17 @@ class Teknisi extends Controller
         $inv['inv_total'] = $data_pelanggan->reg_fee_sales + $data_pelanggan->reg_harga;
         Invoice::create($inv);
 
+
+        if ($request->addons > 0) {
+            $sub_inv1['subinvoice_id'] = $no_inv;
+            $sub_inv1['subinvoice_deskripsi'] = 'Kabel ' . $request->reg_kabel . ' x ' . $request->addons;
+            $sub_inv1['subinvoice_qty'] = $request->reg_kabel;
+            $sub_inv1['subinvoice_harga'] = $request->addons;
+            $sub_inv1['subinvoice_ppn'] = '0';
+            $sub_inv1['subinvoice_total'] =  $request->total;
+
+            SubInvoice::create($sub_inv1);
+        }
         $sub_inv['subinvoice_id'] = $no_inv;
         $sub_inv['subinvoice_deskripsi'] = $data_pelanggan->paket_nama . ' ' . $periode;
         $sub_inv['subinvoice_qty'] = '1';
@@ -170,13 +189,11 @@ class Teknisi extends Controller
 
         SubInvoice::create($sub_inv);
 
-
-        $teknisi['teknisi_end_date'] = date('Y-m-d H:m:s', strtotime($tanggal));
+        $teknisi['teknisi_end_date'] = date('Y-m-d h:i:s', strtotime($tanggal));
         TeknisiTeknisi::where('teknisi_idpel', $request->reg_idpel)
             ->where('teknisi_userid', $admin_id)
             ->where('teknisi_job', 'PSB')
             ->update($teknisi);
-        // dd($teknisi);
 
         $status = (new GlobalController)->whatsapp_status();
 
@@ -188,23 +205,29 @@ class Teknisi extends Controller
                 $pesan_pelanggan['status'] = '10';
                 $pesan_group['status'] = '10';
             }
+            $pesan_group['target'] = $status->wa_groupid;
         }
 
-        $pesan_group['ket'] = 'registrasi';
-        $pesan_group['target'] = '120363262623415382@g.us';
+        $pesan_group['ket'] = 'aktivasi teknisi';
         $pesan_group['nama'] = $request->reg_nama;
         $pesan_group['pesan'] = '               -- SELESAI PEMASANGAN --
 
 Pemasangan telah selesai dikerjakan  😊
 
 Pelanggan : ' . $request->reg_nama . '
-Alamat : ' . $data_pelanggan->reg_wilayah .
-            '
-Panjang Kabel : ' . $request->total . '
-Biaya Kabel : ' . $request->addons . '
-Perlengkapan : ' . $request->reg_kelengkapan . '
+Alamat : ' . $data_pelanggan->reg_alamat_pasang .
 
-Waktu Selesai : ' . date('d-m-Y H:m:s', strtotime(Carbon::now())) . '
+            '
+Panjang Kabel : ' . $request->reg_kabel . ' Meter
+Biaya Kabel : ' . $request->reg_kabel . ' x Rp. ' . number_format($request->addons) . ' = Rp. ' . number_format($request->total) . '
+
+Perlengkapan : 
+' . $request->reg_kelengkapan . '
+
+Waktu Mulai : ' . date('d-m-Y h:i', strtotime($data_pelanggan->teknisi_start_date)) . '
+Waktu Selesai : ' . date('d-m-Y h:i', strtotime(Carbon::now())) . '
+
+Team : ' . $data_pelanggan->teknisi_team . '
 Diaktivasi Oleh : ' . $admin . '
 ';
         // dd($pesan_group);

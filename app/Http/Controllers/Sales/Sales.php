@@ -157,7 +157,7 @@ class Sales extends Controller
         $pesan_pelanggan['target'] = $request->reg_hp1;
         $pesan_pelanggan['nama'] = $request->reg_nama;
         $pesan_pelanggan['pesan'] = 'Pelanggan Yth, 
-Registrasi layanan internet berhasil, berikut data yang sudah terdaftar di sistem kami :
+Registrasi layanan internet berhasil, berikut data yang sudah terdaftar pada sistem kami :
 
 Id.Pelanggan : *' . $idpel . '*
 Nama : *' . $request->reg_nama . '*
@@ -173,7 +173,7 @@ Pesan ini bersifat informasi dan tidak perlu dibalas
         // dd($pesan_pelanggan);
 
         $pesan_group['ket'] = 'registrasi';
-        $pesan_group['target'] = '120363337995857143@g.us';
+        $pesan_group['target'] = $status->wa_group_regist;
         $pesan_group['nama'] = $request->reg_nama;
         $pesan_group['pesan'] = '               -- REGISTRASI --
 
