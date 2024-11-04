@@ -63,13 +63,17 @@ class Pelanggan extends Controller
     public function verif($id)
     {
         // $data['data_wilayah'] = Wilayah::all();
-        // $data['idpel'] = (new GlobalController)->idpel();
-        // $data['data_paket'] = Paket::all();
+        $user = (new GlobalController)->user_admin();
+        $admin_id = $user['user_id'];
+        $admin = $user['user_nama'];
+        $data['role'] = (new GlobalController)->role($admin_id);
+        // dd($data['role']);
+        $data['data_paket'] = Paket::where('paket_status', 'Enable')->get();
 
         $data['data_reg'] = RegistrasiPelanggan::select('pelanggans.*', 'pakets.id', 'pakets.paket_nama', 'pakets.paket_harga')
             ->join('pakets', 'pakets.id', 'pelanggans.reg_paket',)
             ->where('reg_idpel', $id)->first();
-            
+
         // dd($data['data_reg']->reg_idpel);
         $data['data_user'] = User::all();
         return view('Registrasi/verif', $data);
@@ -80,21 +84,66 @@ class Pelanggan extends Controller
         Session::flash('reg_idpel', $request->reg_idpel);
         Session::flash('reg_paket', $request->reg_paket);
         Session::flash('reg_harga', $request->reg_harga);
+        Session::flash('reg_fee_sales', $request->reg_harga);
         $request->validate([
             'reg_paket' => 'required',
             'reg_harga' => 'required',
+            'reg_fee_sales' => 'required',
         ], [
             'reg_paket.required' => 'Paket Internet tidak boleh kosong',
             'reg_harga.required' => 'Harga tidak boleh kosong',
+            'reg_fee_sales.required' => 'Harga tidak boleh kosong',
         ]);
 
-        $data['reg_paket'] = $request->reg_paket;
+        // $data['reg_paket'] = $request->reg_paket;
         $data['reg_harga'] = $request->reg_harga;
+        $data['reg_fee_sales'] = $request->reg_fee_sales;
         $data['reg_status'] = '1';
 
         RegistrasiPelanggan::where('reg_idpel', $request->reg_idpel)->update($data);
         $notifikasi = array(
             'pesan' => 'Berhasil Verifikasi pelanggan',
+            'alert' => 'success',
+        );
+        return redirect()->route('admin.pel.index')->with($notifikasi);
+    }
+    public function aktivasi_noc(Request $request, $id)
+    {
+
+        Session::flash('reg_username', $request->reg_username);
+        Session::flash('reg_password', $request->reg_password);
+        Session::flash('reg_mrek', $request->reg_mrek);
+        Session::flash('reg_sn', $request->reg_sn);
+        Session::flash('reg_kabel', $request->reg_kabel);
+        Session::flash('reg_tgl_pasang', $request->reg_tgl_pasang);
+        $request->validate([
+            'reg_username' => 'required',
+            'reg_password' => 'required',
+            'reg_mrek' => 'required',
+            'reg_sn' => 'required',
+            'reg_kabel' => 'required',
+            'reg_tgl_pasang' => 'required',
+        ], [
+            'reg_username.required' => 'Username tidak boleh kosong',
+            'reg_password.required' => 'Password tidak boleh kosong',
+            'reg_mrek.required' => 'Merek tidak boleh kosong',
+            'reg_sn.required' => 'SN tidak boleh kosong',
+            'reg_kabel.required' => 'Penggunaan Kabel tidak boleh kosong',
+            'reg_tgl_pasang.required' => 'Tanggal Pasang tidak boleh kosong',
+        ]);
+
+        // $data['reg_paket'] = $request->reg_paket;
+        $data['reg_username'] = $request->reg_username;
+        $data['reg_password'] = $request->reg_password;
+        $data['reg_mrek'] = $request->reg_mrek;
+        $data['reg_sn'] = $request->reg_sn;
+        $data['reg_kabel'] = $request->reg_kabel;
+        $data['reg_tgl_pasang'] = $request->reg_tgl_pasang;
+        $data['reg_status'] = '4';
+        RegistrasiPelanggan::where('reg_idpel', $id)->update($data);
+        dd($id);
+        $notifikasi = array(
+            'pesan' => 'Berhasil Aktivasi pelanggan',
             'alert' => 'success',
         );
         return redirect()->route('admin.pel.index')->with($notifikasi);

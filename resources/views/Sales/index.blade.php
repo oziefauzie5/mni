@@ -29,7 +29,7 @@
                 <div class="card-body p-3 text-center">
                   <div class="text-right text-danger">
                   </div>
-                  <div class="h5 m-0">Rp {{$penjualan}}</div>
+                  <div class="h5 m-0">{{$penjualan}}</div>
                   <div class="h6 ">Penjualan Bulan ini</div>
                 </div>
               </div>
@@ -39,7 +39,7 @@
                 <div class="card-body p-3 text-center">
                   <div class="text-right text-success">
                   </div>
-                  <div class="h5 m-0">Rp {{$total_penjualan}}</div>
+                  <div class="h5 m-0">{{$total_penjualan}}</div>
                   <div class="h6 ">Total Penjualan</div>
                 </div>
               </div>
@@ -53,16 +53,10 @@
                         <table>
                             <tr>
                               <td>
-                                <a href="#"onclick="comingson()" class="card mb-2 card_custom1" style="width: 4rem;">
-                                <img src="{{ asset('atlantis/assets/img/payment.png') }}" class="card-img-center p-2" alt="...">
-                                </a>
-                                <div class="text-light mb-3 text-center">Payment</div>
-                              </td>
-                              <td>
                                 <a href="{{ route('admin.sales.input') }}" class="card mb-2 card_custom1" style="width: 4rem;">
                                   <img src="{{ asset('atlantis/assets/img/add_users.png') }}" class="card-img-center p-2" alt="...">
                                 </a>
-                                <div class="text-light mb-3 text-center">Sales</div>
+                                <div class="text-light mb-3 text-center">Registrasi</div>
                               </td>
                               <td>
                                 <div class="card mb-2 card_custom1 " data-toggle="modal" data-target="#exampleModal" style="width: 4rem;">
@@ -72,9 +66,9 @@
                               </td>
                               <td>
                                 <a href="#" onclick="comingson()" class="card mb-2 card_custom1" style="width: 4rem;">
-                                <img src="{{ asset('atlantis/assets/img/mutasi.png') }}" class="card-img-center p-2" alt="...">
+                                <img src="{{ asset('atlantis/assets/img/tagihan.png') }}" class="card-img-center p-2" alt="...">
                                 </a>
-                                <div class="text-light mb-3 text-center">Mutasi</div>
+                                <div class="text-light mb-3 text-center">Tagihan</div>
                               </td>
                               <td>
                                 <a href="{{route('logout')}}" class="card mb-2 card_custom1" style="width: 4rem;">

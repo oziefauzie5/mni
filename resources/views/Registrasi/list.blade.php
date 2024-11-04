@@ -99,7 +99,7 @@
                       <td class="href" data-id="{{$d->reg_idpel}}">{{$d->reg_hp1}}</td>
                       <td class="href" data-id="{{$d->reg_idpel}}">{{$d->reg_alamat_tagih}}</td>
                       <td class="href" data-id="{{$d->reg_idpel}}"> {{$d->reg_sn}}</td>
-                      <td data-toggle="modal" data-target="#exampleModal{{$d->reg_idpel}}">@if($d->reg_status=='0') Registrasi @elseif($d->reg_status =='1')Verifikasi @elseif($d->reg_status =='2')Aktivasi @elseif($d->reg_status =='3')Active @endif</td>
+                      <td data-toggle="modal" data-target="#exampleModal{{$d->reg_idpel}}">@if($d->reg_status=='0') Registrasi @elseif($d->reg_status =='1')Menunggu Teknisi @elseif($d->reg_status =='2')Pemasangan @elseif($d->reg_status =='3')Aktivasi @elseif($d->reg_status =='4')Active @endif</td>
                       <!-- Button trigger modal -->
 
 <!-- Modal -->

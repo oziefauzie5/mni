@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 
 class GlobalController extends Controller
 {
-    public function tanggal() #mennampilkan data user
+    public function tanggal() #mennampilkan Tanggal saat ini
     {
         $tanggal = Carbon::now();
 
@@ -56,13 +56,28 @@ class GlobalController extends Controller
         return $role;
     }
 
+    function no_inv()
+    {
+        $inv_tgl = Carbon::now();
+        $bln = $inv_tgl->format('m');
+        $th = $inv_tgl->format('y');
+
+        $latest = Invoice::latest()->first();
+        if (! $latest) {
+            return $bln . '0001';
+        }
+
+        $string = substr($latest->inv_id, 2);
+        return $bln . sprintf('%04d', $string + 1);
+    }
+
     public function all_user() #mennampilkan data user
     {
         $all_user =  DB::table('users')
             ->select('users.name AS nama_user', 'roles.name', 'users.*', 'model_has_roles.*')
             ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->where('users.id', '>', 10);
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id');
+        // ->where('users.id', '>', 10);
         return $all_user;
     }
 
@@ -70,6 +85,15 @@ class GlobalController extends Controller
     {
         $wa_status =  SettingWhatsapp::first();
         return $wa_status;
+    }
+    public function data_pelanggan($id)
+    {
+        $query = Pelanggan::select('pakets.id', 'pakets.paket_nama', 'pelanggans.*')
+            ->join('pakets', 'pakets.id', '=', 'pelanggans.reg_paket')
+            ->where('reg_idpel', '=', $id)
+            ->first();
+
+        return $query;
     }
 
 

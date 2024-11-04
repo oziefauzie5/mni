@@ -35,12 +35,14 @@ class AppController extends Controller
             $data['wa_key'] = " ";
             $data['wa_url'] = " ";
             $data['wa_groupid'] = " ";
+            $data['wa_group_regist'] = " ";
             $data['wa_status'] = "";
         } else {
             $data['wa_nama'] = $SettingWhatsapp->wa_nama;
             $data['wa_key'] = $SettingWhatsapp->wa_key;
             $data['wa_url'] = $SettingWhatsapp->wa_url;
             $data['wa_groupid'] = $SettingWhatsapp->wa_groupid;
+            $data['wa_group_regist'] = $SettingWhatsapp->wa_group_regist;
             $data['wa_status'] = $SettingWhatsapp->wa_status;
         }
 
@@ -131,6 +133,7 @@ class AppController extends Controller
                     'wa_key' => $request->wa_key,
                     'wa_url' => $request->wa_url,
                     'wa_groupid' => $request->wa_groupid,
+                    'wa_group_regist' => $request->wa_group_regist,
                     'wa_status' => 'Enable',
                 ]
             );
@@ -141,6 +144,7 @@ class AppController extends Controller
                     'wa_key' => $request->wa_key,
                     'wa_url' => $request->wa_url,
                     'wa_groupid' => $request->wa_groupid,
+                    'wa_group_regist' => $request->wa_group_regist,
                     'wa_status' => $request->wa_status,
                 ]
             );

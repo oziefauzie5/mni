@@ -54,7 +54,7 @@
 			<div class="logo-header" data-background-color="blue">
 				
 				<a href="{{route('admin.sales.index')}}" class="logo">
-					<img src="{{ asset('storage/img/'.Session::get('app_logo')) }}" alt="navbar brand" class="navbar-brand">
+				<img src="{{ asset('storage/img/'.Session::get('app_logo')) }}" style="width: 90%;" alt="navbar brand" class="navbar-brand">
 				</a>
 				<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
 			
@@ -74,7 +74,7 @@
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="{{route('admin.sales.index')}}" aria-expanded="false">
 								<div class="avatar-sm">
-									<img src="{{ asset('storage/photo-user/'.Auth::user()->photo) }}" alt="..." class="avatar-img rounded-circle">
+								<img src="@if(Auth::user()->photo) {{ asset('storage/photo-user/'.Auth::user()->photo) }} @else {{ asset('atlantis/assets/img/user.png') }}@endif" alt=".." class="avatar-img rounded-circle"> 
 								</div>
 							</a>
 						</li>
@@ -217,6 +217,36 @@ $(document).ready(function() {
 				}
             });
             });
+
+			$('#paket').on('change', function() {
+				var kode_paket = $(this).val();
+                var url = '{{ route("admin.sales.getPaket", ":id") }}';
+				url = url.replace(':id', kode_paket);
+                if (kode_paket) {
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        data: {
+                            '_token': '{{ csrf_token() }}'
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            // console.log(data[0]['paket_harga']);
+                            if (data) {
+								var harga = data[0]['paket_harga'];
+								$("#paket_harga").val(harga);
+
+                            } else {
+                                $('#paket_harga').empty();
+                            }
+                        }
+                    });
+                } else {
+                    $('#paket_harga').empty();
+                }
+        });
+      
+// END AMBIL HARGA PAKET #REGISTRASI
 
 		@if (Session::has('pesan'))
 swal("{{Session::get('alert')}}!", "{{Session::get('pesan')}}", {

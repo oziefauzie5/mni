@@ -101,34 +101,38 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Serial Number Perangkat</label>
-                      <input type="text" name="reg_sn" id="reg_sn" class="form-control ont" value="{{ Session::get('reg_sn') }}" >
+                      <input type="text" name="reg_sn" id="reg_sn" class="form-control" value="{{ Session::get('reg_sn') }}" >
                     </div>
                   </div>
 
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Biaya Kabel /Meter</label>
-                      <input type="number" name="addons" id="biaya_kabel" class="form-control ont" value="800"  >
+                      <input type="number" name="addons" id="biaya_kabel" class="form-control" value="800"  >
                     </div>
                   </div>
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Kebutuhan Kabel /Meter</label>
-                      <input type="number" name="reg_kabel" id="reg_kabel" class="form-control ont" value="0"  >
+                      <input type="number" name="reg_kabel" id="reg_kabel" class="form-control" value="0"  >
                       <span id="text">Free kabel 100 Meter</span>
                     </div>
                   </div>
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Total</label>
-                      <input type="number" name="total" id="total" class="form-control ont" value="0"  >
+                      <input type="number" name="total" id="total" class="form-control" value="0"  >
                     </div>
                   </div>
 
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Kelengkapan Lainnya</label>
-                      <textarea name="reg_kelengkapan" class="form-control ont" cols="7" rows="5">{{ Session::get('reg_kelengkapan') }}</textarea>
+                      <textarea name="reg_kelengkapan" class="form-control" cols="7" rows="5">1.
+2. 
+3. 
+4. 
+                      </textarea>
                     </div>
                 </div>
                   

@@ -71,8 +71,12 @@
                 <input type="text" class="form-control" name="wa_url" value="{{$wa_url}}"  required>
               </div>
               <div class="form-group">
-                <label >Group ID</label>
+                <label >Group ID Teknisi</label>
                 <input type="text" class="form-control" name="wa_groupid" value="{{$wa_groupid}}"  required>
+              </div>
+              <div class="form-group">
+                <label >Group ID Registrasi</label>
+                <input type="text" class="form-control" name="wa_group_regist" value="{{$wa_group_regist}}"  required>
               </div>
               <div class="form-check">
                 <label class="form-check-label">

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('wa_key')->nullable();
             $table->string('wa_url')->nullable();
             $table->string('wa_groupid')->nullable();
+            $table->string('wa_group_regist')->nullable();
             $table->string('wa_status')->nullable();
             $table->timestamps();
         });

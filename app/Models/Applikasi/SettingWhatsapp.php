@@ -13,6 +13,7 @@ class SettingWhatsapp extends Model
         'wa_key',
         'wa_url',
         'wa_groupid',
+        'wa_group_regist',
         'wa_status',
     ];
 }

@@ -33,9 +33,13 @@
               </ul>
           </div> 
           @endif
-           <form class="form-horizontal"action="{{route('admin.pel.proses_verif')}}" method="POST">
+          @if ($data_reg->reg_idpel > 4)
+          <form class="form-horizontal"action="{{route('admin.pel.proses_verif')}}" method="POST">
+              @else
+              <form class="form-horizontal"action="{{route('admin.pel.proses_verif')}}" method="POST">
+          @endif
              @csrf
-             @method('put');
+             @method('put')
 
              <h3 class="mt-3 text-bolt">FORM REGISTRASI LAYANAN INTERNET</h3><hr>
              
@@ -49,37 +53,37 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nama Pelanggan</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="reg_nama" value="{{ $data_reg->reg_nama }}" name="reg_nama" readonly>
+                  <input type="text" class="form-control" id="reg_nama" value="{{ $data_reg->reg_nama }}" name="reg_nama" @if ($role->role_id > 2) readonly @endif>
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >No Identitas</label>
               <div class="col-sm-4">
-                <input class="form-control" value="{{ $data_reg->reg_identistas }}" readonly name="reg_identistas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "16" >
+                <input class="form-control" value="{{ $data_reg->reg_identistas }}" @if ($role->role_id > 2) readonly @endif name="reg_identistas" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "16" >
               </div>
                 <label class=" col-sm-2 col-form-label">Tgl Lahir</label>
               <div class="col-sm-4">
-                <input type="text" name="reg_tgl_lahir"  class="form-control datepicker" value="{{ $data_reg->reg_tgl_lahir }}" readonly>
+                <input type="text" name="reg_tgl_lahir"  class="form-control datepicker" value="{{ $data_reg->reg_tgl_lahir }}" @if ($role->role_id > 2) readonly @endif>
               </div>
             </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >No HP Utama</label>
               <div class="col-sm-4">
-                <input type="number" class="form-control" value="{{ $data_reg->reg_hp1 }}" name="reg_hp1" readonly>
+                <input type="number" class="form-control" value="{{ $data_reg->reg_hp1 }}" name="reg_hp1" @if ($role->role_id > 2) readonly @endif>
               </div>
                 <label class=" col-sm-2 col-form-label">No HP Alternatif</label>
               <div class="col-sm-4">
-                <input type="number" name="reg_hp2" class="form-control" value="{{ $data_reg->reg_hp2 }}"readonly>
+                <input type="number" name="reg_hp2" class="form-control" value="{{ $data_reg->reg_hp2 }}"@if ($role->role_id > 2) readonly @endif>
               </div>
             </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >Email</label>
               <div class="col-sm-4">
-                <input type="email" class="form-control" id="" value="{{ $data_reg->reg_email }}" name="reg_email"readonly>
+                <input type="email" class="form-control" id="" value="{{ $data_reg->reg_email }}" name="reg_email"@if ($role->role_id > 2) readonly @endif>
               </div>
                 <label class="col-sm-2 col-form-label" >Wilayah</label>
               <div class="col-sm-4">
-                <select class="form-control" name="reg_wilayah" id="" readonly>
+                <select class="form-control" name="reg_wilayah" id="" @if ($role->role_id > 2) readonly @endif>
                   <option value="">{{ $data_reg->reg_wilayah }}</option>
                  </select> 
               </div>
@@ -87,25 +91,25 @@
               <div class="form-group row">
                 <label class=" col-sm-2 col-form-label">Sales</label>
               <div class="col-sm-4">
-                <select class="form-control" name="reg_sales" id="" readonly>
+                <select class="form-control" name="reg_sales" id="" @if ($role->role_id > 2) readonly @endif>
                   <option value="">{{ $data_reg->reg_nama }}</option>
                  </select>              
               </div>
               <label class="col-sm-2 col-form-label" >Sub Seles</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control" id="" value="{{ Session::get('reg_subseles') }}" name="reg_subseles" readonly>
+                <input type="text" class="form-control" id="" value="{{ Session::get('reg_subseles') }}" name="reg_subseles" @if ($role->role_id > 2) readonly @endif>
               </div>
             </div>
               <div class="form-group row">
                   <label for="alamat_pasang" class="col-sm-2 col-form-label">Alamat Pemasangan</label>
                   <div class="col-sm-10">
-                    <textarea  name="reg_alamat_pasang" class="form-control" rows="3" readonly>{{ $data_reg->reg_alamat_pasang }}</textarea>
+                    <textarea  name="reg_alamat_pasang" class="form-control" rows="3" @if ($role->role_id > 2) readonly @endif>{{ $data_reg->reg_alamat_pasang }}</textarea>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="alamat_pasang" class="col-sm-2 col-form-label">Alamat Penagihan</label>
                   <div class="col-sm-10">
-                    <textarea  name="reg_alamat_tagih" class="form-control" rows="3" readonly>{{ $data_reg->reg_alamat_tagih }}</textarea>
+                    <textarea  name="reg_alamat_tagih" class="form-control" rows="3" @if ($role->role_id > 2) readonly @endif>{{ $data_reg->reg_alamat_tagih }}</textarea>
                   </div>
               </div>
 
@@ -113,17 +117,33 @@
               <div class="form-group row">
                 <label for="paket" class="col-sm-2 col-form-label">Paket Internet *</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" name="reg_paket" value="{{ $data_reg->paket_nama}}" readonly >
+                  <select name="reg_paket" id="paket" class="form-control" @if ($role->role_id > 2) readonly @endif>
+                    <option value="{{ $data_reg->reg_paket}}">{{ $data_reg->paket_nama}}</option>
+                    @foreach ($data_paket as $p)
+                        <option value="{{$p->id}}">{{$p->paket_nama}}</option>
+                    @endforeach
+                  </select>
                 </div>
                 <label class="col-sm-2 col-form-label">Harga prorata</label>
                 <div class="col-sm-4">
-                  <input type="text" class="form-control" name="reg_harga" value="{{ $data_reg->paket_harga}}" readonly >
+                  <input type="text" class="form-control" id="paket_harga" name="reg_harga" value="{{ $data_reg->paket_harga}}" readonly >
                 </div>
-               
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Fee Continue *</label>
+                <div class="col-sm-4">
+                  <input type="number" class="form-control" name="reg_fee_sales" value="{{ $data_reg->reg_fee_sales}}" @if ($role->role_id > 2) readonly @endif >
+                </div>
               </div>
               <div class="card-footer">
                 @if($data_reg->reg_status == 0) 
                 <button type="submit" class="btn btn-warning float-right">Verifikasi</button>
+                @elseif($data_reg->reg_status >= 4)
+                @if ($role->role_id <=2)
+                <button type="submit" class="btn btn-warning float-right">Update</button>
+                @else
+                <button type="submit" class="btn btn-success float-right" disabled>Terverivikasi</button>
+                @endif
                 @else  
                 <button type="submit" class="btn btn-success float-right" disabled>Terverivikasi</button>
                 @endif
@@ -133,54 +153,47 @@
             <br>
 
 
-@role('admin|Noc')
               <h3 class="mt-3 text-bolt">INTERNET & HADHWARE</h3><hr>
-           
+              <form class="form-horizontal"action="{{route('admin.pel.aktivasi_noc',['id'=>$data_reg->reg_idpel])}}" method="POST">
+                 @csrf
+                 @method('put')
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Username internet *</label>
               <div class="col-sm-4">
-                <input type="text" id="reg_username" name="reg_username" class="form-control hotspot" value="{{ $data_reg->reg_username}}" >
+                <input type="text" id="reg_username" name="reg_username" class="form-control hotspot" value="{{ $data_reg->reg_username}}" @if ($role->role_id != 3) readonly @endif>
               </div>
                 <label class=" col-sm-2 col-form-label" >Passwd internet *</label>
               <div class="col-sm-4">
-                <input type="text" class="form-control pwhotspot" name="reg_password" value="{{ $data_reg->reg_password}}"  >
+                <input type="text" class="form-control pwhotspot" name="reg_password" value="{{ $data_reg->reg_password}}"  @if ($role->role_id != 3) readonly @endif >
               </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Merek & Tipe Perangkat</label>
                 <div class="col-sm-4">
-                  <input type="text" name="reg_mrek" id="reg_merek" class="form-control ont" value="{{ $data_reg->reg_merek}}" >
+                  <input type="text" name="reg_mrek" id="reg_merek" class="form-control ont" value="{{ $data_reg->reg_mrek}}" @if ($role->role_id != 3) readonly @endif >
                 </div>
                 <label class=" col-sm-2 col-form-label" >SN Perangkat</label>
               <div class="col-sm-4">
-                <input type="text" name="reg_sn" id="reg_sn" class="form-control ont" value="{{ $data_reg->reg_sn}}" >
+                <input type="text" name="reg_sn" id="reg_sn" class="form-control ont" value="{{ $data_reg->reg_sn}}" @if ($role->role_id != 3) readonly @endif>
               </div>
               </div>
               <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Kebutuhan Kabel /Meter</label>
+                <label class="col-sm-2 col-form-label">Kebutuhan Kabel ( Meter )</label>
                 <div class="col-sm-4">
-                  <input type="number" name="reg_kabel" id="reg_kabel" class="form-control ont" value="{{ $data_reg->reg_kabel}}"  >
-                  <span id="text">Gratis kabel 100 Meter</span>
+                  <input type="number" name="reg_kabel" id="reg_kabel" class="form-control ont" value="{{ $data_reg->reg_kabel}}"  @if ($role->role_id != 3) readonly @endif>
                 </div>
-              </div>
-              <div class="form-group row">
                 <label class="col-sm-2 col-form-label" >Tanggal Pemasangan*</label>
                 <div class="col-sm-4">
-                <input type="text" class="form-control datepicker"  name="reg_tgl_pasang" value="{{Session::get('reg_tgl_pasang')}}">
-                </div>
-                <label class="col-sm-2 col-form-label">Biaya Kabel</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="addons" name="addons" value="0" readonly>
+                <input type="text" class="form-control datepicker"  name="reg_tgl_pasang" value="{{ $data_reg->reg_tgl_pasang}}" @if ($role->role_id != 3) readonly @endif>
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Kelengkapan Lainnya</label>
                 <div class="col-sm-10">
-                  <textarea name="reg_kelengkapan" class="form-control ont" cols="7" rows="7">{{ $data_reg->reg_kelengkapan}}</textarea>
+                  <textarea name="reg_kelengkapan" class="form-control ont" cols="7" rows="7" @if ($role->role_id != 3) readonly @endif>{{ $data_reg->reg_kelengkapan}}</textarea>
                 </div>
               </div>
 
-@endrole
               
             
             <h3 class="mt-3 text-bolt">CATATAN</h3><hr>
@@ -193,8 +206,14 @@
           </div>
             
          <div class="card-footer">
-           <button type="button" class="btn  ">Batal</button>
-           <button type="submit" class="btn btn-primary float-right">Simpan</button>
+          @if($data_reg->reg_status == 3) 
+          <button type="submit" class="btn btn-warning float-right">Aktivasi</button>
+          @elseif($data_reg->reg_status >= 4)
+          <button type="submit" class="btn btn-warning float-right">Update</button>
+          @else  
+          <span>Aktivasi hanya bisa dilakukan oleh NOC</span>
+          <button type="submit" class="btn btn-warning float-right" disabled>Aktivasi</button>
+          @endif
          </div>
        </form>
       </div>

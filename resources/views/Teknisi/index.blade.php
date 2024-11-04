@@ -29,8 +29,8 @@
                 <div class="card-body p-3 text-center">
                   <div class="text-right text-danger">
                   </div>
-                  <div class="h5 m-0">Rp {{$pemasangan}}</div>
-                  <div class="h6 ">Pemasangan Bulan ini</div>
+                  <div class="h5 m-0">{{$pemasangan}}</div>
+                  <div class="h6 ">Pem. Bulan ini</div>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
                 <div class="card-body p-3 text-center">
                   <div class="text-right text-success">
                   </div>
-                  <div class="h5 m-0">Rp {{$total_pemasangan}}</div>
+                  <div class="h5 m-0">{{$total_pemasangan}}</div>
                   <div class="h6 ">Total Pemasangan</div>
                 </div>
               </div>
@@ -59,35 +59,12 @@
                                 <div class="text-light mb-3 text-center">Tiket</div>
                             </th>
                             <th>
-                              <a href=" " onclick="comingson()" class="card mb-2 card_custom1" style="width: 4rem;">
+                              <a href="{{route('admin.teknisi.list_aktivasi')}}" class="card mb-2 card_custom1" style="width: 4rem;">
                                 <img src="{{ asset('atlantis/assets/img/ceklis.png') }}" class="card-img-center p-2" alt="...">
                                 </a>
                                 <div class="text-light mb-3 text-center">Aktivasi</div>
                               </th>
                               <th>
-                              <a href="#" onclick="comingson()"class="card mb-2 card_custom1" style="width: 4rem;">
-                                <img src="{{ asset('atlantis/assets/img/selesai.png') }}" class="card-img-center p-2" alt="...">
-                                </a>
-                                <div class="text-light mb-3 text-center">Selesai</div>
-                              </th>
-                              <th>
-                              <a href="#" onclick="comingson()"class="card mb-2 card_custom1" style="width: 4rem;">
-                                <img src="{{ asset('atlantis/assets/img/komisi.png') }}" class="card-img-center p-2" alt="...">
-                                </a>
-                                <div class="text-light mb-3 text-center">Komisi</div>
-                              </th>
-                              <th>
-                              <a href="#" onclick="comingson()"class="card mb-2 card_custom1" style="width: 4rem;">
-                                <img src="{{ asset('atlantis/assets/img/cari.png') }}" class="card-img-center p-2" alt="...">
-                                </a>
-                                <div class="text-light mb-3 text-center">Cari</div>
-                              </th>
-                              <th>
-                              <a href="#" onclick="comingson()"class="card mb-2 card_custom1" style="width: 4rem;">
-                                <img src="{{ asset('atlantis/assets/img/values.png') }}" class="card-img-center p-2" alt="...">
-                                </a>
-                                <div class="text-light mb-3 text-center">Penilaian</div>
-                              </th>
                               <th>
                               <a href="{{ route('logout') }}" class="card mb-2 card_custom1" style="width: 4rem;">
                                 <img src="{{ asset('atlantis/assets/img/shutdown.png') }}" class="card-img-center p-2" alt="...">
@@ -101,9 +78,9 @@
     </section>
 
         <section class="content mt-3">
-          @foreach($verifikasi as $pel)
+          @foreach($job as $pel)
           <div class="col">
-              <div class="card card_custom1" onclick="location.href='{{route('admin.teknisi.aktivasi',['id'=>$pel->reg_idpel])}}';" >
+              <div class="card card_custom1" @if ($pel->reg_status==1)data-toggle="modal" data-target="#exampleModal{{$pel->reg_idpel}}" @endif>
                 <div class="card-body skew-shadow">
                     <div class="row">
                         <div class="col-12 pr-0">
@@ -111,10 +88,10 @@
                             <div class="text-small text-uppercase fw-bold op-8">{{$pel->reg_alamat_pasang}}</div>
                         </div>
                         <div class="col-12 pr-0">
-                            <div class="text-small text-uppercase fw-bold text-danger"> <span class="text-dark">Tanggal Input : </span>{{date('d M Y H:m:s',strtotime($pel->created_at))}}</div>
+                            <div class="text-small text-uppercase fw-bold text-danger"> <span class="text-dark">Tanggal Registasi : </span>{{date('d M Y H:m:s',strtotime($pel->created_at))}}</div>
                         </div>
                         <div class="col-12 pl-0 text-right">
-                            <div class="text-small text-uppercase fw-bold op-8">@if($pel->reg_status=='0') Registrasi @elseif($pel->reg_status =='1')Verifikasi @elseif($pel->reg_status =='2')Pemasangan @elseif($pel->reg_status =='3')Selesai @endif</div>
+                            <div class="text-small text-uppercase fw-bold op-8">@if($pel->reg_status=='0') Registrasi @elseif($pel->reg_status =='1')Menunggu Teknisi @elseif($pel->reg_status =='2')Pemasangan @elseif($pel->reg_status =='3')Selesai @endif</div>
                         </div>
                     </div>
                 </div>
@@ -122,10 +99,10 @@
           </div>
           {{-- modal lihat pel --}}
           <div class="modal fade" id="exampleModal{{$pel->reg_idpel}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Terima Pekerjaan</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">TERIMA JOB</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -133,7 +110,44 @@
                 <div class="modal-body">
                   
                   {{--  --}}
-                  
+                  <label for="barang" class=" col-form-label">DATA LANGGANAN</label>
+                  <ul class="list-group">
+                   <li class="list-group-item">No. Layanan   : {{$pel->reg_idpel}}</li>
+                   <li class="list-group-item">Nama   : {{$pel->reg_nama}}</li>
+                   <li class="list-group-item">Alamat : {{$pel->reg_alamat_pasang}}</li>
+                  <li class="list-group-item">Sales : {{$pel->name}}</li>
+                  <li class="list-group-item">Sub Sales : {{$pel->reg_subseles}}</li>
+                  </ul>
+                  <hr>
+                  <label for="barang" class=" col-form-label">PEMBAYARAN</label>
+                  <ul class="list-group">
+                   <li class="list-group-item">Jumlah Tagihan   : Rp. {{ number_format($pel->reg_harga) }}</li>
+                  </ul>
+                  <hr>
+                  <label for="barang" class=" col-form-label">TEAM TEKNISI</label>
+          
+                  <div class="content">
+                  <form action="{{route('admin.teknisi.job',['id'=>$pel->reg_idpel])}}" method="POST">
+                  @csrf
+                  @method('POST')
+                  <div class="form-group">
+          
+                                        <select class="form-control mb-3" id="teknisi" name="teknisi" required>
+                                          <option value="">Pilih Teknisi</option>
+                                          @foreach ($teknisi as $user)
+                                          <option value="{{$user->id.'|'.$user->name.'|'.$user->hp}}">{{$user->name}}</option>
+                                          @endforeach
+                                        </select>
+                                        <input type="text" class="form-control" name="sub_teknisi" required>
+                                        <input type="hidden" id="job" name="job" value="PSB">
+                                    </div>
+                                    <label for="barang" class=" col-form-label">JENIS PEKERJAAN</label>
+                  <div class="form-group">
+
+                                        <input type="text" class="form-control" name="job" value="PSB" readonly>
+                                    </div>
+          
+                  </div>
                   {{--  --}}
 
 

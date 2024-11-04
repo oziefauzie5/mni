@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Global\GlobalController;
+use App\Models\Global\ConvertNoHp;
 use App\Models\Area\Wilayah;
 use App\Models\Paket\Paket;
 use App\Models\Pesan\Pesan;
@@ -18,6 +19,7 @@ class Sales extends Controller
 {
     public function index()
     {
+        // $m = Carbon::now();
         $user = (new GlobalController)->user_admin();
         $user_id = $user['user_id'];
         $role = (new globalController)->data_user($user_id);
@@ -28,10 +30,8 @@ class Sales extends Controller
             ->join('pakets', 'pakets.id', '=', 'pelanggans.reg_paket')
             ->where('reg_sales', '=', $user_id);
 
-
-
         $data['registrasi'] = $query->get();
-        $data['penjualan'] = $query->count();
+        $data['penjualan'] = $query->whereMonth('pelanggans.created_at', '=', $m)->count();
 
         $query1 = Pelanggan::where('reg_sales', '=', $user_id);
         $data['total_penjualan'] = $query1->count();
@@ -53,25 +53,34 @@ class Sales extends Controller
         $data['role'] = $role->name;
         $data['admin_user'] = (new GlobalController)->user_admin();
 
-        return view('sales/input', $data);
+        return view('Sales/input', $data);
+    }
+
+    public function getPaket(Request $request, $id)
+    {
+        $data = Paket::whereId($id)->get();
+        return response()->json($data);
     }
 
     public function store(Request $request)
     {
-        $data['idpel'] = (new GlobalController)->idpel();
+        $idpel = (new GlobalController)->idpel();
         $user = (new GlobalController)->user_admin();
+        $nomorhp1 = (new ConvertNoHp())->convert_nohp($request->reg_hp1);
+        $nomorhp2 = (new ConvertNoHp())->convert_nohp($request->reg_hp2);
         $admin_id = $user['user_id'];
         $admin = $user['user_nama'];
         Session::flash('reg_nama', $request->reg_nama);
         Session::flash('reg_identistas', $request->reg_identistas);
         Session::flash('reg_tgl_lahir', $request->reg_tgl_lahir);
-        Session::flash('reg_hp1', $request->reg_hp1);
-        Session::flash('reg_hp2', $request->reg_hp2);
+        Session::flash('reg_hp1', $nomorhp1);
+        Session::flash('reg_hp2', $nomorhp2);
         Session::flash('reg_email', $request->reg_email);
         Session::flash('reg_subseles', $request->reg_subseles);
         Session::flash('reg_alamat_pasang', $request->reg_alamat_pasang);
         Session::flash('reg_alamat_tagih', $request->reg_alamat_tagih);
         Session::flash('reg_paket', $request->reg_paket);
+        Session::flash('paket_harga', $request->paket_harga);
         Session::flash('reg_catatan', $request->reg_catatan);
         Session::flash('reg_wilayah', $request->reg_wilayah);
 
@@ -88,6 +97,7 @@ class Sales extends Controller
             'reg_alamat_pasang' => 'required',
             'reg_alamat_tagih' => 'required',
             'reg_paket' => 'required',
+            'paket_harga' => 'required',
             'reg_wilayah' => 'required',
 
 
@@ -102,31 +112,35 @@ class Sales extends Controller
             'reg_alamat_pasang.required' => 'Alamat Pemasangan tidak boleh kosong',
             'reg_alamat_tagih.required' => 'Alamat Penagihan tidak boleh kosong',
             'reg_paket.required' => 'Paket Internet tidak boleh kosong',
+            'paket_harga.required' => 'Harga Paket tidak boleh kosong',
             'reg_wilayah.required' => 'Wilayah tidak boleh kosong',
         ]);
 
 
-        $data['reg_idpel'] = $data['idpel'];
+        $data['reg_idpel'] = $idpel;
         $data['reg_nama'] = $request->reg_nama;
         $data['reg_identistas'] = $request->reg_identistas;
         $data['reg_tgl_lahir'] = $request->reg_tgl_lahir;
-        $data['reg_hp1'] = $request->reg_hp1;
-        $data['reg_hp2'] = $request->reg_hp2;
+        $data['reg_hp1'] = $nomorhp1;
+        $data['reg_hp2'] = $nomorhp2;
         $data['reg_email'] = $request->reg_email;
         $data['reg_sales'] = $admin_id;
         $data['reg_subseles'] = $request->reg_subseles;
         $data['reg_alamat_pasang'] = $request->reg_alamat_pasang;
-        $data['reg_alamat_tagih'] = $request->reg_subseles;
+        $data['reg_alamat_tagih'] = $request->reg_alamat_tagih;
         $data['reg_paket'] = $request->reg_paket;
+        $data['reg_harga'] = $request->paket_harga;
         $data['reg_catatan'] = $request->reg_catatan;
         $data['reg_wilayah'] = $request->reg_wilayah;
         $data['reg_status'] = '0';
 
         // dd($data);
         RegistrasiPelanggan::create($data);
-        $profile = Paket::whereId($request->reg_paket)->first();
+        // dd($data);
+        $paket = Paket::whereId($request->reg_paket)->first();
 
         $status = (new GlobalController)->whatsapp_status();
+        // dd($status->wa_group_regist);
 
         if ($status) {
             if ($status->wa_status == 'Enable') {
@@ -138,27 +152,48 @@ class Sales extends Controller
             }
         }
 
+        $pesan_pelanggan['ket'] = 'registrasi';
+        $pesan_pelanggan['target'] = $request->reg_hp1;
+        $pesan_pelanggan['nama'] = $request->reg_nama;
+        $pesan_pelanggan['pesan'] = 'Pelanggan Yth, 
+Registrasi layanan internet berhasil, berikut data yang sudah terdaftar di sistem kami :
+
+Id.Pelanggan : *' . $idpel . '*
+Nama : *' . $request->reg_nama . '*
+Alamat pasang : ' . $request->reg_alamat_pasang . '
+Paket : *' . $paket->paket_nama . '*
+Iuran /bulan : Rp.  ' . number_format($request->paket_harga) . '
+
+--------------------
+Pesan ini bersifat informasi dan tidak perlu dibalas
+*' . Session::get('app_brand') . '*
+';
+        Pesan::create($pesan_pelanggan);
+        // dd($pesan_pelanggan);
 
         $pesan_group['ket'] = 'registrasi';
-        $pesan_group['target'] = '120363262623415382@g.us';
+        $pesan_group['target'] = '120363337995857143@g.us';
         $pesan_group['nama'] = $request->reg_nama;
-        $pesan_group['pesan'] = '               -- LIST PEMASANGAN --
+        $pesan_group['pesan'] = '               -- REGISTRASI --
 
-Antrian pemasangan tanggal ' . date('d-m-Y', strtotime($request->reg_tgl_pasang)) . ' 
-
-No Pelanggan : *' . $request->reg_idpel . '*
+Id Pelanggan : *' . $idpel . '*
 Nama : ' . $request->reg_nama . '
 Alamat : ' . $request->reg_alamat_pasang .
             '
-Paket : *' . $profile->paket_nama . '*
-Iuran /bulan : ' . number_format($request->reg_harga) . '
-Biaya Kabel : ' . number_format($request->addons) . '
+Paket : *' . $paket->paket_nama . '*
+Iuran /bulan : Rp. ' . number_format($request->paket_harga) . '
 
+Catatan : 
+' . $request->reg_catatan . '
+
+Sub Sales : *' . $request->reg_subseles . '*
 Diregistrasi Oleh : *' . $admin . '*
 ';
+        Pesan::create($pesan_group);
+
+
         // dd($pesan_group);
 
-        Pesan::create($pesan_group);
         $notifikasi = array(
             'pesan' => 'Berhasil menambahkan pelanggan',
             'alert' => 'success',

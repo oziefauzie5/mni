@@ -120,12 +120,18 @@
                   <div class="col-sm-12">
                     <div class="form-group">
                       <label>Paket</label>
-                      <select class="form-control" name="reg_paket" id="">
+                      <select class="form-control" name="reg_paket" id="paket">
                         <option value="">PILIH PAKET</option>
                         @foreach ($data_paket as $w)
                         <option value="{{$w->id}}">{{$w->paket_nama}}</option>
                         @endforeach
                        </select> 
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label>Harga</label>
+                      <input type="text" class="form-control" id="paket_harga" value="{{ Session::get('paket_harga') }}" name="paket_harga" readonly>
                     </div>
                   </div>
                   <div class="col-sm-12">

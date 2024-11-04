@@ -185,7 +185,30 @@
 								</ul>
 							</div>
 						</li>
-						@role('admin|Noc')
+						@role('admin|STAF')
+						<li class="nav-item {{\Route::is('admin.inv.*') ? 'active' : ''}}">
+							<a data-toggle="collapse" href="#inv">
+								<i class="fas fa-random"></i>
+								<p>Transaksi</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="inv">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="{{route('admin.inv.unpaid')}}">
+											<span class="sub-item">Invoice Unpaid</span>
+										</a>
+									</li>
+									<li>
+										<a href="{{route('admin.pel.registrasi')}}">
+											<span class="sub-item">Invoice Paid</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						@endrole
+						@role('admin')
 						<li class="nav-item {{\Route::is('admin.wil.*') ? 'active' : ''}}">
 							<a href="{{route('admin.wil.index')}}">
 								<i class="fas fa-list-alt"></i>
@@ -194,7 +217,7 @@
 						</li>
 						<li class="nav-item {{\Route::is('admin.wa.*') ? 'active' : ''}}">
 							<a href="{{route('admin.wa.index')}}">
-								<i class="fas fa-list-alt"></i>
+								<i class="fab fa-whatsapp"></i>
 								<p>whatsapp</p>
 							</a>
 						</li>
@@ -419,9 +442,19 @@
 });
 
 
-			$('#paket').on('change', function() {
+			
+// START EDIT HREF PSB
+$('.href').click(function(){
+							var id =$(this).data("id");
+							var url = '{{ route("admin.pel.verif", ":id") }}';
+							url = url.replace(':id', id);
+							// alert(url);
+							window.location=url;
+						});
+// START EDIT PAKET REGISTRASI
+						$('#paket').on('change', function() {
 				var kode_paket = $(this).val();
-                var url = '{{ route("admin.pel.getPaket", ":id") }}';
+                var url = '{{ route("admin.sales.getPaket", ":id") }}';
 				url = url.replace(':id', kode_paket);
                 if (kode_paket) {
                     $.ajax({
@@ -432,47 +465,37 @@
                         },
                         dataType: 'json',
                         success: function(data) {
-                            console.log(data[0]['paket_harga']);
+                            // console.log(data[0]['paket_harga']);
                             if (data) {
 								var harga = data[0]['paket_harga'];
-								$("#harga").val(harga);
+								$("#paket_harga").val(harga);
 
                             } else {
-                                $('#harga').empty();
+                                $('#paket_harga').empty();
                             }
                         }
                     });
                 } else {
-                    $('#harga').empty();
+                    $('#paket_harga').empty();
                 }
         });
-      
-// END AMBIL HARGA PAKET #REGISTRASI
-// START EDIT HREF PSB
-$('.href').click(function(){
-							var id =$(this).data("id");
-							var url = '{{ route("admin.pel.verif", ":id") }}';
-							url = url.replace(':id', id);
-							// alert(url);
-							window.location=url;
-						});
 
 
 		
-		Circles.create({
-			id:'circles-1',
-			radius:45,
-			value:60,
-			maxValue:100,
-			width:7,
-			text: 5,
-			colors:['#f1f1f1', '#FF9E27'],
-			duration:400,
-			wrpClass:'circles-wrp',
-			textClass:'circles-text',
-			styleWrapper:true,
-			styleText:true
-		})
+		// Circles.create({
+		// 	id:'circles-1',
+		// 	radius:45,
+		// 	value:60,
+		// 	maxValue:100,
+		// 	width:7,
+		// 	text: 5,
+		// 	colors:['#f1f1f1', '#FF9E27'],
+		// 	duration:400,
+		// 	wrpClass:'circles-wrp',
+		// 	textClass:'circles-text',
+		// 	styleWrapper:true,
+		// 	styleText:true
+		// })
 
 		Circles.create({
 			id:'circles-2',

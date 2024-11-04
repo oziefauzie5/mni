@@ -8,6 +8,7 @@ use App\Http\Controllers\Paket\Paket;
 use App\Http\Controllers\Registrasi\Pelanggan;
 use App\Http\Controllers\Sales\Sales;
 use App\Http\Controllers\Teknisi\Teknisi;
+use App\Http\Controllers\Transaksi\Invoice;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Whatsapp\WhatsappApi;
 use App\Http\Controllers\Whatsapp\WhatsappController;
@@ -31,13 +32,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web'], 'as' => 'admin.
 
 
     Route::get('/teknisi', [Teknisi::class, 'index'])->name('teknisi.index')->middleware(['role:admin|TEKNISI']);
+    Route::get('/teknisi/list-aktivasi', [Teknisi::class, 'list_aktivasi'])->name('teknisi.list_aktivasi')->middleware(['role:admin|TEKNISI']);
     Route::get('/teknisi/{id}/aktivasi', [Teknisi::class, 'aktivasi'])->name('teknisi.aktivasi')->middleware(['role:admin|TEKNISI']);
+    Route::post('/teknisi/{id}/job', [Teknisi::class, 'job'])->name('teknisi.job')->middleware(['role:admin|TEKNISI']);
     Route::post('/teknisi/proses_aktivasi', [Teknisi::class, 'proses_aktivasi'])->name('teknisi.proses_aktivasi')->middleware(['role:admin|TEKNISI']);
 
     Route::get('/sales', [Sales::class, 'index'])->name('sales.index')->middleware(['role:admin|SALES']);
     Route::get('/sales/input', [Sales::class, 'input'])->name('sales.input')->middleware(['role:admin|SALES']);
     Route::post('/sales/store', [Sales::class, 'store'])->name('sales.store')->middleware(['role:admin|SALES']);
+    Route::get('/sales/{id}/get-paket', [Pelanggan::class, 'getPaket'])->name('sales.getPaket')->middleware(['role:admin|NOC|SALES']);
 
+
+    Route::get('/invoice', [Invoice::class, 'unpaid'])->name('inv.unpaid')->middleware(['role:admin|STAF']);
+    Route::delete('/invoice/{id}/delete-invoice', [Invoice::class, 'delete_inv'])->name('inv.delete_inv')->middleware(['role:admin|STAF']);
 
     Route::get('/wilayah', [Wilayah::class, 'index'])->name('wil.index')->middleware(['role:admin|NOC']);
     Route::post('/wilayah/store', [Wilayah::class, 'store'])->name('wil.store')->middleware(['role:admin|NOC']);
@@ -59,14 +66,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:web'], 'as' => 'admin.
     Route::put('/setting/{id}/update-paket', [Paket::class, 'update'])->name('app.paket.update')->middleware(['role:admin|NOC']);
     Route::delete('/setting/{id}/delete-paket', [Paket::class, 'delete'])->name('app.paket.delete')->middleware(['role:admin|NOC']);
 
-    Route::get('/registrasi/list', [Pelanggan::class, 'index'])->name('pel.index')->middleware(['role:admin|NOC|SALES']);
-    Route::get('/registrasi/{id}/verif', [Pelanggan::class, 'verif'])->name('pel.verif')->middleware(['role:admin|NOC|SALES']);
-    Route::put('/registrasi/proses-verif', [Pelanggan::class, 'proses_verif'])->name('pel.proses_verif')->middleware(['role:admin|NOC|SALES']);
-    Route::put('/registrasi/{id}/status', [Pelanggan::class, 'status'])->name('pel.status')->middleware(['role:admin|NOC|SALES']);
-    Route::get('/registrasi/{id}/print', [Pelanggan::class, 'print'])->name('pel.print')->middleware(['role:admin|NOC|SALES']);
-    Route::get('/registrasi', [Pelanggan::class, 'registrasi'])->name('pel.registrasi')->middleware(['role:admin|NOC|SALES']);
-    Route::post('/registrasi/store', [Pelanggan::class, 'store'])->name('pel.store')->middleware(['role:admin|NOC|SALES']);
-    Route::get('/registrasi/{id}/get-paket', [Pelanggan::class, 'getPaket'])->name('pel.getPaket')->middleware(['role:admin|NOC|SALES']);
+    Route::get('/registrasi/list', [Pelanggan::class, 'index'])->name('pel.index')->middleware(['role:admin|NOC']);
+    Route::get('/registrasi/{id}/verif', [Pelanggan::class, 'verif'])->name('pel.verif')->middleware(['role:admin|NOC']);
+    Route::put('/registrasi/proses-verif', [Pelanggan::class, 'proses_verif'])->name('pel.proses_verif')->middleware(['role:admin|NOC']);
+    Route::put('/registrasi/{id}/aktivasi-noc', [Pelanggan::class, 'aktivasi_noc'])->name('pel.aktivasi_noc')->middleware(['role:admin|NOC']);
+    Route::put('/registrasi/{id}/status', [Pelanggan::class, 'status'])->name('pel.status')->middleware(['role:admin|NOC']);
+    Route::get('/registrasi/{id}/print', [Pelanggan::class, 'print'])->name('pel.print')->middleware(['role:admin|NOC']);
+    Route::get('/registrasi', [Pelanggan::class, 'registrasi'])->name('pel.registrasi')->middleware(['role:admin|NOC']);
+    Route::post('/registrasi/store', [Pelanggan::class, 'store'])->name('pel.store')->middleware(['role:admin|NOC']);
+    Route::get('/registrasi/{id}/get-paket', [Pelanggan::class, 'getPaket'])->name('pel.getPaket')->middleware(['role:admin|NOC']);
 
 
     Route::get('/whatsapp/update-group', [WhatsappApi::class, 'update_group_list'])->name('whatsapp.update_group_list')->middleware(['role:admin|NOC']);

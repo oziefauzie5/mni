@@ -19,6 +19,7 @@ class Pelanggan extends Model
         'reg_alamat_pasang',
         'reg_alamat_tagih',
         'reg_sales',
+        'reg_fee_sales',
         'reg_subseles',
         'reg_paket',
         'reg_harga',
